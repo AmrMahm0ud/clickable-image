@@ -67,9 +67,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //using for build map
   List<Widget> _buildMap() {
-    List<Widget> provinces = List(Province.values.length);
-    for (int i = 0; i < Province.values.length; i++) {
-      provinces[i] = _buildProvince(Province.values[i]);
+     var list = _buildList();
+    List<Widget> provinces = List(list.length);
+    for (int i = 0; i < list.length; i++) {
+      provinces[i] = _buildProvince(list[i]);
     }
     return provinces;
   }
@@ -86,11 +87,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 
-  Widget _buildProvince(Province province) {
+  Widget _buildProvince(Pro province) {
     return ClipPath(
         child: Stack(children: <Widget>[
           CustomPaint(
-          painter: PathPainter(province)),
+          painter: PathPainter(province.pro)),
           Material(
               color: Colors.transparent,
               child: InkWell(
@@ -105,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                                   onPressed: () {
 
-                                     p = Pro(province , Colors.red);
+                                     p = Pro(province.pro , Colors.red);
 
                                       setState(() {
                                       paintPart.add(p);
@@ -148,21 +149,21 @@ class _MyHomePageState extends State<MyHomePage> {
           )
          ]
         ),
-        clipper: PathClipper(province));
+        clipper: PathClipper(province.pro));
   }
 
-  bool checkForSelectPart(Province province){
+  bool checkForSelectPart(Pro province){
     for (int i = 0 ; i < paintPart.length ; i ++){
-      if(paintPart[i].pro == province){
+      if(paintPart[i].pro == province.pro){
         return true;
       }
     }
     return false ;
   }
 
-  bool checkForDeletePart(Province province){
+  bool checkForDeletePart(Pro province){
     for (int i = 0 ; i < paintPart.length ; i ++){
-      if(paintPart[i].pro == province){
+      if(paintPart[i].pro == province.pro){
         paintPart.remove(paintPart[i]);
         return true;
       }
@@ -170,9 +171,9 @@ class _MyHomePageState extends State<MyHomePage> {
     return false ;
   }
 
-  void _provincePressed(Province province) {
+  void _provincePressed(Pro province) {
     setState(() {
-      _pressedProvince = province;
+      _pressedProvince = province.pro;
     });
   }
 }
