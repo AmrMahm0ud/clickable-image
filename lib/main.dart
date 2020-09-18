@@ -67,20 +67,24 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //using for build map
   List<Widget> _buildMap() {
-
     List<Widget> provinces = List(Province.values.length);
-
     for (int i = 0; i < Province.values.length; i++) {
-
       provinces[i] = _buildProvince(Province.values[i]);
-      
-      debugPrint(Province.values[i].toString());
-
     }
-
     return provinces;
-
   }
+
+
+   //for buildmap using class mobdel
+   List <Pro> _buildList(){
+    for (int i = 0 ; i < Province.values.length ; i ++ ){
+      buildMap.add(Pro(Province.values[i] , Colors.transparent));
+    }
+  return buildMap;
+  }
+
+
+
 
   Widget _buildProvince(Province province) {
     return ClipPath(
