@@ -1,7 +1,3 @@
-///
-/// Created by Giovanni Terlingen
-/// See LICENSE file for more information.
-///
 import 'dart:ui';
 
 import 'package:built_path_annotations/built_path_annotations.dart';

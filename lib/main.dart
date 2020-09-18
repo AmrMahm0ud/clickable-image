@@ -9,9 +9,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Clickable SVG map of The Netherlands',
+        title: 'clickable image ',
         theme: ThemeData(primarySwatch: Colors.blue),
-        home: MyHomePage(title: 'Clickable SVG map of The Netherlands'));
+        home: MyHomePage(title: 'clickable image '));
   }
 }
 
