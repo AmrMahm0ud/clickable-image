@@ -92,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return ClipPath(
         child: Stack(children: <Widget>[
           CustomPaint(
-          painter: PathPainter(province.pro)),
+          painter: PathPainter(province)),
           Material(
               color: Colors.transparent,
               child: InkWell(
@@ -150,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
           )
          ]
         ),
-        clipper: PathClipper(province.pro));
+        clipper: PathClipper(province));
   }
 
   bool checkForSelectPart(Pro province){
@@ -191,13 +191,25 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 class PathPainter extends CustomPainter {
-  final Province _province;
+  final Pro _province;
   PathPainter(this._province);
 
   @override
   void paint(Canvas canvas, Size size) {
-    Path path = getPathByProvince(_province);
+    Path path = getPathByProvince(_province.pro);
     canvas.drawPath(
         path,
         Paint()
@@ -214,12 +226,12 @@ class PathPainter extends CustomPainter {
 }
 
 class PathClipper extends CustomClipper<Path> {
-  final Province _province;
+  final Pro _province;
   PathClipper(this._province);
 
   @override
   Path getClip(Size size) {
-    return getPathByProvince(_province);
+    return getPathByProvince(_province.pro);
   }
 
   @override
