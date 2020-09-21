@@ -71,6 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
     List<Widget> provinces = List(list.length);
     for (int i = 0; i < list.length; i++) {
       provinces[i] = _buildProvince(list[i]);
+    // print(list[i].pro);
     }
     return provinces;
   }
@@ -177,6 +178,17 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 class PathPainter extends CustomPainter {
