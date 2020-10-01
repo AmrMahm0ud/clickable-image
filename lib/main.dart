@@ -1,6 +1,5 @@
 
 import 'package:clickable_regions/switch_between_screen.dart';
-import 'package:clickable_regions/widget/car_one_widget/car_one_widget.dart';
 import 'package:flutter/material.dart';
 
 

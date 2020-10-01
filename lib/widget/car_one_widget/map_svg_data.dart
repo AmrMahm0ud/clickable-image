@@ -6,26 +6,25 @@ part 'map_svg_data.svg_path.g.dart';
 
 
 
-enum Province {
+enum carOne {
   frontWheal,
   backWheal,
   sideBody,
   topBar,
   downBar,
-
 }
 
-Path getPathByProvince(Province province) {
-  switch (province) {
-    case Province.frontWheal:
+Path getPathByProvince(carOne car) {
+  switch (car) {
+    case carOne.frontWheal:
       return MapSvgData.frontWheal;
-    case Province.backWheal:
+    case carOne.backWheal:
       return MapSvgData.backWheal;
-    case Province.sideBody:
+    case carOne.sideBody:
       return MapSvgData.sideBody;
-    case Province.topBar:
+    case carOne.topBar:
       return MapSvgData.topBar;
-    case Province.downBar:
+    case carOne.downBar:
       return MapSvgData.downBar;
   }
   return Path();
@@ -42,6 +41,7 @@ class MapSvgData {
   static double get height => 104.98627;
   static double get width =>  100.53455;
   //car image
+
   @SvgPath(
       'M15.078,51.768c-5.832,0-10.562,4.728-10.562,10.562c0,0.451,0.037,0.891,0.094,1.328    c0.655,5.205,5.086,9.233,10.468,9.233c5.526,0,10.058-4.25,10.516-9.66c0.024-0.298,0.045-0.597,0.045-0.901    C25.639,56.496,20.911,51.768,15.078,51.768z M11.107,59.339l1.617,1.618c-0.126,0.216-0.225,0.449-0.287,0.697h-2.28    C10.274,60.792,10.605,60.002,11.107,59.339z M10.147,63.029h2.298c0.064,0.245,0.16,0.475,0.287,0.688l-1.621,1.621    C10.609,64.675,10.27,63.889,10.147,63.029z M14.392,67.255c-0.859-0.12-1.641-0.457-2.301-0.956l1.611-1.611    c0.213,0.125,0.445,0.215,0.689,0.277L14.392,67.255L14.392,67.255z M14.392,59.691c-0.251,0.063-0.483,0.164-0.701,0.292    l-1.615-1.617c0.664-0.504,1.452-0.838,2.316-0.958V59.691z M15.766,57.409c0.864,0.12,1.653,0.454,2.316,0.959l-1.616,1.616    c-0.216-0.128-0.451-0.229-0.7-0.292V57.409z M15.766,67.253v-2.288c0.244-0.062,0.475-0.155,0.688-0.279l1.612,1.612    C17.406,66.797,16.623,67.133,15.766,67.253z M19.049,65.342l-1.626-1.627c0.128-0.214,0.23-0.44,0.295-0.687h2.28    C19.875,63.887,19.552,64.683,19.049,65.342z M17.721,61.655c-0.063-0.249-0.162-0.481-0.287-0.697l1.618-1.618    c0.5,0.664,0.831,1.452,0.949,2.315H17.721z')
   static Path get frontWheal => _$MapSvgData_frontWheal;

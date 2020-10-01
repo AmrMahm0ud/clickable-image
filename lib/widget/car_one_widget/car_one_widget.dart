@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../model/model.dart';
+import '../../model/model_for_car_one.dart';
 import 'map_svg_data.dart';
 
 
@@ -16,11 +16,11 @@ class CarOnePage extends StatefulWidget {
 }
 
 class _CarOnePageState extends State<CarOnePage> {
-  Province _pressedProvince;
+  carOne _pressedProvince;
 
-  List<Pro> paintPart = []; // change
-  List<Pro> buildMap = [] ;
-  Pro p ;
+  List<CarOne> paintPart = []; // change
+  List<CarOne> buildSvgImage = [] ;
+  CarOne _carOne ;
 
 
   @override
@@ -48,7 +48,7 @@ class _CarOnePageState extends State<CarOnePage> {
             child: Transform.scale(
                 scale: ((height / MapSvgData.height)) * scaleFactor,
                 child: Transform.translate(
-                    offset: offset, child: Stack(children: _buildMap()
+                    offset: offset, child: Stack(children: _buildSvgImage()
                 )
                 )
             )
@@ -57,36 +57,37 @@ class _CarOnePageState extends State<CarOnePage> {
   }
 
   //using for build map
-  List<Widget> _buildMap() {
+  List<Widget> _buildSvgImage() {
     var list = _buildList();
-    List<Widget> provinces = List(list.length);
+    List<Widget> carOnePaths = List(list.length);
     for (int i = 0; i < list.length; i++) {
-      provinces[i] = _buildProvince(list[i]);
+      carOnePaths[i] = _buildCar(list[i]);
       // print(list[i].pro);
     }
-    return provinces;
+    return carOnePaths;
   }
 
 
   //for buildmap using class mobdel
-  List <Pro> _buildList(){
-    for (int i = 0 ; i < Province.values.length ; i ++ ){
-      buildMap.add(Pro(Province.values[i] , Colors.transparent));
+  List <CarOne> _buildList(){
+    for (int i = 0 ; i < carOne.values.length ; i ++ ){
+      buildSvgImage.add(CarOne(carOne.values[i] , Colors.transparent));
     }
-    return buildMap;
+    return buildSvgImage;
   }
 
 
 
 
-  Widget _buildProvince(Pro province) {
+  Widget _buildCar(CarOne car) {
     return ClipPath(
         child: Stack(children: <Widget>[
           CustomPaint(
-              painter: PathPainter(province)),
+              painter: PathPainter(car)),
           Material(
               color: Colors.transparent,
-              child: InkWell(
+              child: InkWell
+                (
                   onTap: () {
                     showDialog(
                         context: context,
@@ -95,16 +96,13 @@ class _CarOnePageState extends State<CarOnePage> {
                           actions: [
                             FlatButton(
                               child: Text("yes"),
-
                               onPressed: () {
-
-                                p = Pro(province.pro , Colors.red);
-
+                                _carOne = CarOne(car.carParts , Colors.red);
                                 setState(() {
-                                  paintPart.add(p);
+                                  paintPart.add(_carOne);
                                 });
                                 // change
-                                _provincePressed(province);
+                                _carPartPressed(car);
 
                                 Navigator.pop(context);
                               },
@@ -112,11 +110,11 @@ class _CarOnePageState extends State<CarOnePage> {
                             FlatButton(
                               child: Text("NO"),
                               onPressed: () {
-                                debugPrint(province.toString());
+                                debugPrint(car.toString());
 
                                 setState(() {
 
-                                  checkForDeletePart(province); // for test
+                                  checkForDeletePart(car); // for test
 
                                 });
                                 Navigator.pop(context);
@@ -133,7 +131,7 @@ class _CarOnePageState extends State<CarOnePage> {
                     );
                   },
                   child: Container(
-                      color: checkForSelectPart(province) //for test
+                      color: checkForSelectPart(car) //for test
                           ? Colors.red
                           : Colors.transparent
                   )
@@ -141,21 +139,21 @@ class _CarOnePageState extends State<CarOnePage> {
           )
         ]
         ),
-        clipper: PathClipper(province));
+        clipper: PathClipper(car));
   }
 
-  bool checkForSelectPart(Pro province){
+  bool checkForSelectPart(CarOne province){
     for (int i = 0 ; i < paintPart.length ; i ++){
-      if(paintPart[i].pro == province.pro){
+      if(paintPart[i].carParts == province.carParts){
         return true;
       }
     }
     return false ;
   }
 
-  bool checkForDeletePart(Pro province){
+  bool checkForDeletePart(CarOne province){
     for (int i = 0 ; i < paintPart.length ; i ++){
-      if(paintPart[i].pro == province.pro){
+      if(paintPart[i].carParts == province.carParts){
         paintPart.remove(paintPart[i]);
         return true;
       }
@@ -163,9 +161,9 @@ class _CarOnePageState extends State<CarOnePage> {
     return false ;
   }
 
-  void _provincePressed(Pro province) {
+  void _carPartPressed(CarOne province) {
     setState(() {
-      _pressedProvince = province.pro;
+      _pressedProvince = province.carParts;
     });
   }
 }
@@ -173,34 +171,13 @@ class _CarOnePageState extends State<CarOnePage> {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 class PathPainter extends CustomPainter {
-  final Pro _province;
-  PathPainter(this._province);
+  final CarOne _carPart;
+  PathPainter(this._carPart);
 
   @override
   void paint(Canvas canvas, Size size) {
-    Path path = getPathByProvince(_province.pro);
+    Path path = getPathByProvince(_carPart.carParts);
     canvas.drawPath(
         path,
         Paint()
@@ -217,12 +194,12 @@ class PathPainter extends CustomPainter {
 }
 
 class PathClipper extends CustomClipper<Path> {
-  final Pro _province;
-  PathClipper(this._province);
+  final CarOne _carPart;
+  PathClipper(this._carPart);
 
   @override
   Path getClip(Size size) {
-    return getPathByProvince(_province.pro);
+    return getPathByProvince(_carPart.carParts);
   }
 
   @override

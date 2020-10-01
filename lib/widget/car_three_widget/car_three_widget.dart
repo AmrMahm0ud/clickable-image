@@ -1,27 +1,27 @@
+import 'package:clickable_regions/model/model_for_car_three.dart';
 import 'package:flutter/material.dart';
 
-import '../../model/model_for_car_two.dart';
-
-import './map_svg_data_for_car_two.dart';
+import 'map_svg_data_for_car_three.dart';
 
 
 
 
-class CarTwoPage extends StatefulWidget {
-  CarTwoPage({Key key}) : super(key: key);
 
- // final String title;
+class CarThreePage extends StatefulWidget {
+  CarThreePage({Key key}) : super(key: key);
+
+  // final String title;
 
   @override
-  _CarTwoPageState createState() => _CarTwoPageState();
+  _CarThreePageState createState() => _CarThreePageState();
 }
 
-class _CarTwoPageState extends State<CarTwoPage> {
-  carTwo _pressedProvince;
+class _CarThreePageState extends State<CarThreePage> {
+  carThree _pressedProvince;
 
-  List<CarTwo> paintPart = []; // change
-  List<CarTwo> buildMap = [] ;
-  CarTwo _carTwo ;
+  List<CarThree> paintPart = []; // change
+  List<CarThree> buildMap = [] ;
+  CarThree _carThree ;
 
 
   @override
@@ -70,9 +70,9 @@ class _CarTwoPageState extends State<CarTwoPage> {
 
 
   //for buildmap using class mobdel
-  List <CarTwo> _buildList(){
-    for (int i = 0 ; i < carTwo.values.length ; i ++ ){
-      buildMap.add(CarTwo(carTwo.values[i] , Colors.transparent));
+  List <CarThree> _buildList(){
+    for (int i = 0 ; i < carThree.values.length ; i ++ ){
+      buildMap.add(CarThree(carThree.values[i] , Colors.transparent));
     }
     return buildMap;
   }
@@ -80,13 +80,13 @@ class _CarTwoPageState extends State<CarTwoPage> {
 
 
 
-  Widget _buildProvince(CarTwo carTwoPart) {
+  Widget _buildProvince(CarThree carThreeParts) {
     return ClipPath(
         child: Stack(children: <Widget>[
           CustomPaint(
-              painter: PathPainter(carTwoPart)),
+              painter: PathPainter(carThreeParts)),
           Material(
-              color: Colors.transparent,
+              color: Colors.white,
               child: InkWell(
                   onTap: () {
                     showDialog(
@@ -99,13 +99,13 @@ class _CarTwoPageState extends State<CarTwoPage> {
 
                               onPressed: () {
 
-                                _carTwo = CarTwo(carTwoPart.car , Colors.red);
+                                _carThree = CarThree(carThreeParts.car , Colors.red);
 
                                 setState(() {
-                                  paintPart.add(_carTwo);
+                                  paintPart.add(_carThree);
                                 });
                                 // change
-                                _provincePressed(carTwoPart);
+                                _provincePressed(carThreeParts);
 
                                 Navigator.pop(context);
                               },
@@ -113,11 +113,11 @@ class _CarTwoPageState extends State<CarTwoPage> {
                             FlatButton(
                               child: Text("NO"),
                               onPressed: () {
-                                debugPrint(carTwoPart.toString());
+                                debugPrint(carThreeParts.toString());
 
                                 setState(() {
 
-                                  checkForDeletePart(carTwoPart); // for test
+                                  checkForDeletePart(carThreeParts); // for test
 
                                 });
                                 Navigator.pop(context);
@@ -134,7 +134,7 @@ class _CarTwoPageState extends State<CarTwoPage> {
                     );
                   },
                   child: Container(
-                      color: checkForSelectPart(carTwoPart) //for test
+                      color: checkForSelectPart(carThreeParts) //for test
                           ? Colors.red
                           : Colors.transparent
                   )
@@ -142,21 +142,21 @@ class _CarTwoPageState extends State<CarTwoPage> {
           )
         ]
         ),
-        clipper: PathClipper(carTwoPart));
+        clipper: PathClipper(carThreeParts));
   }
 
-  bool checkForSelectPart(CarTwo carTwoPart){
+  bool checkForSelectPart(CarThree carThreePart){
     for (int i = 0 ; i < paintPart.length ; i ++){
-      if(paintPart[i].car == carTwoPart.car){
+      if(paintPart[i].car == carThreePart.car){
         return true;
       }
     }
     return false ;
   }
 
-  bool checkForDeletePart(CarTwo carTwoPart){
+  bool checkForDeletePart(CarThree carThreePart){
     for (int i = 0 ; i < paintPart.length ; i ++){
-      if(paintPart[i].car == carTwoPart.car){
+      if(paintPart[i].car == carThreePart.car){
         paintPart.remove(paintPart[i]);
         return true;
       }
@@ -164,21 +164,21 @@ class _CarTwoPageState extends State<CarTwoPage> {
     return false ;
   }
 
-  void _provincePressed(CarTwo carTwoPart) {
+  void _provincePressed(CarThree carThreePart) {
     setState(() {
-      _pressedProvince = carTwoPart.car;
+      _pressedProvince = carThreePart.car;
     });
   }
 }
 
 
 class PathPainter extends CustomPainter {
-  final CarTwo _province;
-  PathPainter(this._province);
+  final CarThree carThreePart;
+  PathPainter(this.carThreePart);
 
   @override
   void paint(Canvas canvas, Size size) {
-    Path path = getPathByProvince(_province.car);
+    Path path = getPathByProvince(carThreePart.car);
     canvas.drawPath(
         path,
         Paint()
@@ -195,12 +195,12 @@ class PathPainter extends CustomPainter {
 }
 
 class PathClipper extends CustomClipper<Path> {
-  final CarTwo _province;
-  PathClipper(this._province);
+  final CarThree carThreePart;
+  PathClipper(this.carThreePart);
 
   @override
   Path getClip(Size size) {
-    return getPathByProvince(_province.car);
+    return getPathByProvince(carThreePart.car);
   }
 
   @override

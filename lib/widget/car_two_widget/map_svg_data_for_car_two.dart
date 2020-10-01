@@ -1,9 +1,10 @@
 import 'dart:ui';
 
 import 'package:built_path_annotations/built_path_annotations.dart';
+
 part 'map_svg_data_for_car_two.svg_path.g.dart';
 
-enum Province2 {
+enum carTwo {
   side1,
   side2,
   side3,
@@ -11,28 +12,25 @@ enum Province2 {
   side5,
   side6 ,
   side7 ,
-//  topBar,
-//  downBar,
-
 }
 
-Path getPathByProvince(Province2 province) {
-  switch (province) {
-    case Province2.side1:
+Path getPathByProvince(carTwo carPart) {
+  switch (carPart) {
+    case carTwo.side1:
       return MapSvgData.side1;
-    case Province2.side2:
+    case carTwo.side2:
       return MapSvgData.side2;
-    case Province2.side3:
+    case carTwo.side3:
       return MapSvgData.side3;
-    case Province2.side3:
+    case carTwo.side3:
       return MapSvgData.side4;
-    case Province2.side4:
+    case carTwo.side4:
       return MapSvgData.side5;
-    case Province2.side5:
+    case carTwo.side5:
       return MapSvgData.side6;
-    case Province2.side6:
+    case carTwo.side6:
       return MapSvgData.side6;
-    case Province2.side7:
+    case carTwo.side7:
       return MapSvgData.side7;
   }
   return Path();

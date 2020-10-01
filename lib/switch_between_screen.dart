@@ -1,5 +1,7 @@
 
+import 'package:clickable_regions/widget/Car_insurance_SVG_test/car_insurance_widget.dart';
 import 'package:clickable_regions/widget/car_one_widget/car_one_widget.dart';
+import 'package:clickable_regions/widget/car_three_widget/car_three_widget.dart';
 import 'package:clickable_regions/widget/car_two_widget/car_two_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -23,6 +25,12 @@ class SwitchBetWeenScreens extends StatelessWidget {
           child: Text("Car2"),
           onPressed: () => Navigator.push(context, MaterialPageRoute(builder:  (context) => CarTwoPage())),
         ),
+        FlatButton(
+          color: Colors.grey,
+          child: Text("Car3"),
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder:  (context) => CarThreePage())),
+
+         ),
       ],
     ),
     );

@@ -4,11 +4,11 @@
 import 'package:clickable_regions/widget/car_one_widget/map_svg_data.dart';
 import'package:flutter/material.dart';
 
-class Pro {
+class CarOne {
 
-  Province pro;
+  carOne carParts;
   Color color;
 
-  Pro(this.pro , this.color);
+  CarOne(this.carParts , this.color);
 
 }
