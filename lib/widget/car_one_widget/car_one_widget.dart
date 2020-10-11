@@ -48,8 +48,11 @@ class _CarOnePageState extends State<CarOnePage> {
             child: Transform.scale(
                 scale: ((height / MapSvgData.height)) * scaleFactor,
                 child: Transform.translate(
-                    offset: offset, child: Stack(children: _buildSvgImage()
-                )
+                    offset: offset, child: Container(
+                      color:Colors.blue,
+                      child: Stack(children: _buildSvgImage()
+                ),
+                    )
                 )
             )
         )
