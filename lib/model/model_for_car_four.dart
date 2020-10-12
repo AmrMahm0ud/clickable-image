@@ -3,11 +3,29 @@ import 'package:clickable_regions/widget/car_four_widget/car_four_svg_data.dart'
 import'package:flutter/material.dart';
 
 
-class CarFour {
+//abstract class Car {
+//  CarFourParts carSvgParts;
+//  Color color;
+//}
+//
+//class CarFour extends Car {
+//
+//  var carSvgParts;
+//  Color color;
+//  String name;
+//
+//  CarFour(this.carSvgParts , this.color);
+//
+//}
 
-  CarFourParts carSvgParts;
+
+class CarModel {
+
+  Path carSvgParts;
   Color color;
+  String name;
+//bool isClickable;
 
-  CarFour(this.carSvgParts , this.color);
+  CarModel(this.carSvgParts , this.color,this.name);
 
 }
