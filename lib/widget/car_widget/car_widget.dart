@@ -1,4 +1,6 @@
-import 'package:clickable_regions/model/model_for_car_four.dart';
+import 'package:clickable_regions/model/car_model.dart';
+import 'package:clickable_regions/widget/car_widget/path_clipper.dart';
+import 'package:clickable_regions/widget/car_widget/path_painter.dart';
 import 'package:flutter/material.dart';
 
 
@@ -16,7 +18,7 @@ class CarWidget extends StatefulWidget {
    @required this.height,
    this.baseColor=Colors.white,
    this.partPaintingColor=Colors.red,
-   this.isLandScape=true,
+   this.isLandScape = true,
    this.onClick
   });
 
@@ -25,34 +27,27 @@ class CarWidget extends StatefulWidget {
 }
 
 class _CarWidgetState extends State<CarWidget> {
-   CarModel _pressedProvince;
+  final String BUTTON_CANCEL = "Cancel";
+  final String BUTTON_YES = "Yes" ;
+  final String BUTTON_NO = "No";
+  final String TEXT_ASK_TO_PAINT = "Do You Want To Paint It";
+
+
+  CarModel _pressedProvince;
   @override
   Widget build(BuildContext context) {
 
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-    double navBarHeight =
-    Theme.of(context).platform == TargetPlatform.android ? 56.0 : 44.0;
-    double safeZoneHeight = MediaQuery.of(context).padding.bottom;
-    double scaleFactor = 0.5;
-    double x = (width / 2.0) - (widget.width / 2.0);
-    double y = (height / 2.0) - (widget.height / 2.0) - (safeZoneHeight / 2.0) - navBarHeight;
-    Offset offset = Offset(x, y);
-    return  SafeArea(
-            child: Transform.scale(
-                scale: ((height / 250)) * scaleFactor,
-                child: Container(
-                  width: double.infinity,
-                  height: double.infinity,
-                  child: Transform.translate(
-                    offset: offset,
-                    child: RotatedBox(
-                        quarterTurns: 1,
-                        child: Stack(children: _buildSvgImage())),
-                  ),
+    return  Center(
+      child: RotatedBox(
+        quarterTurns: checkForLandScap(widget.isLandScape),
+            child: Container(
+                width:  widget.width,
+                height: widget.height,
+                child: Stack(children: _buildSvgImage()
                 )
-            )
-        );
+        ),
+      ),
+    );
   }
 
   //using for build map
@@ -60,12 +55,12 @@ class _CarWidgetState extends State<CarWidget> {
     var list = widget.carModelList;
     List<Widget> carFourPaths = List(list.length);
     for (int i = 0; i < list.length; i++) {
-      carFourPaths[i] = _buildCar(list[i]);
+      carFourPaths[i] = _buildCarParts(list[i]);
     }
     return carFourPaths;
   }
 
-  Widget _buildCar(CarModel car) {
+  Widget _buildCarParts(CarModel car) {
     return ClipPath(
         child: Stack(
         children: <Widget>[
@@ -75,10 +70,10 @@ class _CarWidgetState extends State<CarWidget> {
                   onTap: () => showDialog(
                     context: context,
                     builder: (_) => AlertDialog(
-                      title: Text("Do You want to paint it "),
+                      title: Text(TEXT_ASK_TO_PAINT),
                       actions: [
                         FlatButton(
-                          child: Text("yes"),
+                          child: Text(BUTTON_YES),
                           onPressed: () {
                             for (int i = 0; i < widget.carModelList.length; i++) {
                               if (widget.carModelList[i].carSvgParts == car.carSvgParts) {
@@ -89,11 +84,11 @@ class _CarWidgetState extends State<CarWidget> {
                             }
                             _carPartPressed(car);
                             widget.onClick(car);
-                            Navigator.pop(context);
+                            navPop();
                           },
                         ),
                         FlatButton(
-                          child: Text("NO"),
+                          child: Text(BUTTON_NO),
                           onPressed: () {
                             for (int i = 0; i < widget.carModelList.length; i++) {
                               if (widget.carModelList[i].carSvgParts == car.carSvgParts) {
@@ -102,13 +97,13 @@ class _CarWidgetState extends State<CarWidget> {
                                 });
                               }
                             }
-                            Navigator.pop(context);
+                            navPop();
                           },
                         ),
                         FlatButton(
-                          child: Text("Cancel"),
+                          child: Text(BUTTON_CANCEL),
                           onPressed: () {
-                            Navigator.pop(context);
+                          navPop();
                           },
                         ),
                       ],
@@ -129,44 +124,28 @@ class _CarWidgetState extends State<CarWidget> {
   }
 
 
+
+
+
+  ////////////////////////////////////////////////////////////////////
+  //////////////////////Helper Method ////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+
+
   void _carPartPressed(CarModel province) {
     setState(() {
       _pressedProvince = CarModel(province.carSvgParts, province.color , province.name);
     });
   }
-}
 
-class PathPainter extends CustomPainter {
-  final CarModel _carPart;
-  PathPainter(this._carPart);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    Path path = _carPart.carSvgParts;
-    canvas.drawPath(
-        path,
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..color = Colors.black
-          ..strokeWidth = 2.0);
+  void navPop(){
+    Navigator.pop(context);
   }
-
-  @override
-  bool shouldRepaint(PathPainter oldDelegate) => true;
-
-  @override
-  bool shouldRebuildSemantics(PathPainter oldDelegate) => false;
 }
 
-class PathClipper extends CustomClipper<Path> {
-  final CarModel _carPart;
-  PathClipper(this._carPart);
 
-  @override
-  Path getClip(Size size) {
-    return _carPart.carSvgParts;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
-}
+ int checkForLandScap(bool isLandScap){
+  if (isLandScap){
+    return 1;
+  }else return 0;
+ }

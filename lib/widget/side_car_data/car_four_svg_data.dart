@@ -5,105 +5,104 @@ import 'package:built_path_annotations/built_path_annotations.dart';
 part 'car_four_svg_data.svg_path.g.dart';
 
 
-enum CarFourParts  {
-  fill125,
-  stroke126,
-  fill127,
-  stroke128,
-  stroke129,
-  stroke131,
-  eksedamLf,
-  rfrfLb,
-  doorLb,
-  doorLf,
-  lightSpotLb,
-  stroke144,
-  wheelLf,
-  stroke147,
-  stroke149,
-  wheelLb,
-  stroke162,
-  stroke164,
-  strokeGlassLf,
-  stroke177,
-  glassLb,
-  stroke179,
-  shoraaLb,
-  stroke181,
-  fill182,
-  stroke183,
-  rfrfLf,
-  atbL,
-  eksdamLb,
-  lightSpotLf,
+enum CarParts  {
+  FILL125,
+  STROKE126,
+  FILL127,
+  STROKE128,
+  STROKE129,
+  STROKE131,
+  EKSEDAMLF,
+  RFRFLB,
+  DOORLB,
+  DOORLF,
+  LIGHTSPOTLB,
+  STROKE144,
+  WHEELLF,
+  STROKE147,
+  STROKE149,
+  WHEELLB,
+  STROKE162,
+  STROKE164,
+  STROKEGLASSLF,
+  STROKE177,
+  GLASSLB,
+  STROKE179,
+  SHORAALB,
+  STROKE181,
+  FILL182,
+  STROKE183,
+  RFRFLF,
+  ATBL,
+  EKSDAMLB,
+  LIGHTSPOTLF,
 }
 
 
 
 
-Path getPathByProvince(CarFourParts car) {
+Path getPathByProvince(CarParts car) {
   switch (car) {
-    case CarFourParts.fill125:
+    case CarParts.FILL125:
       return MapSvgData.fill125;
-    case CarFourParts.stroke126:
+    case CarParts.STROKE126:
       return MapSvgData.stroke126;
-    case CarFourParts.fill127:
+    case CarParts.FILL127:
       return MapSvgData.fill127;
-    case CarFourParts.stroke128:
+    case CarParts.STROKE128:
       return MapSvgData.stroke128;
-    case CarFourParts.stroke129:
+    case CarParts.STROKE129:
       return MapSvgData.stroke129;
-    case CarFourParts.stroke131:
+    case CarParts.STROKE131:
       return MapSvgData.stroke131;
-     case CarFourParts.eksedamLf:
+     case CarParts.EKSEDAMLF:
        return MapSvgData.eksedamLf;
-    case CarFourParts.rfrfLb:
+    case CarParts.RFRFLB:
       return MapSvgData.rfrfLb;
-    case CarFourParts.doorLb:
+    case CarParts.DOORLB:
       return MapSvgData.doorLb;
-    case CarFourParts.doorLf:
+    case CarParts.DOORLF:
       return MapSvgData.doorLf;
-    case CarFourParts.lightSpotLb:
+    case CarParts.LIGHTSPOTLB:
       return MapSvgData.lightSpotLb;
-    case CarFourParts.stroke144:
+    case CarParts.STROKE144:
       return MapSvgData.stroke144;
-    case CarFourParts.wheelLf:
+    case CarParts.WHEELLF:
       return MapSvgData.wheelLf;
-    case CarFourParts.stroke147:
+    case CarParts.STROKE147:
       return MapSvgData.stroke147;
-    case CarFourParts.stroke149:
+    case CarParts.STROKE149:
       return MapSvgData.stroke149;
-    case CarFourParts.wheelLb:
+    case CarParts.WHEELLB:
       return MapSvgData.wheelLb;
-    case CarFourParts.stroke162:
+    case CarParts.STROKE162:
       return MapSvgData.stroke162;
-    case CarFourParts.stroke164:
+    case CarParts.STROKE164:
       return MapSvgData.stroke164;
-    case CarFourParts.strokeGlassLf:
+    case CarParts.STROKEGLASSLF:
       return MapSvgData.strokeGlassLf;
-    case CarFourParts.stroke177:
+    case CarParts.STROKE177:
       return MapSvgData.stroke177;
-    case CarFourParts.glassLb:
+    case CarParts.GLASSLB:
       return MapSvgData.glassLb;
-    case CarFourParts.stroke179:
+    case CarParts.STROKE179:
       return MapSvgData.stroke179;
-    case CarFourParts.shoraaLb:
+    case CarParts.SHORAALB:
       return MapSvgData.shoraaLb;
-    case CarFourParts.stroke181:
+    case CarParts.STROKE181:
       return MapSvgData.stroke181;
-    case CarFourParts.fill182:
+    case CarParts.FILL182:
       return MapSvgData.fill182;
-    case CarFourParts.stroke183:
+    case CarParts.STROKE183:
       return MapSvgData.stroke183;
-    case CarFourParts.rfrfLf:
+    case CarParts.RFRFLF:
       return MapSvgData.rfrfLf;
-    case CarFourParts.atbL:
+    case CarParts.ATBL:
       return MapSvgData.atbL;
-    case CarFourParts.eksdamLb:
+    case CarParts.EKSDAMLB:
       return MapSvgData.eksdamLb;
-    case CarFourParts.lightSpotLf:
+    case CarParts.LIGHTSPOTLF:
       return MapSvgData.lightSpotLf;
-
   }
   return Path();
 }
@@ -111,8 +110,8 @@ Path getPathByProvince(CarFourParts car) {
 
 class MapSvgData {
   /// Height and width of the used SVG image
-  static double get height => 250;
-  static double get width =>  550;
+  static double get height => 125;
+  static double get width =>  345;
   //car image
 
   @SvgPath(
