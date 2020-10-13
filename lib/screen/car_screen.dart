@@ -17,7 +17,7 @@ class _CarAppState extends State<CarApp> {
   void initState() {
     super.initState();
     for(int i = 0 ; i < CarFourParts.values.length ; i ++ ){
-      buildSvgImage.add(CarModel(getPathByProvince(CarFourParts.values[i]) , Colors.white10 , CarFourParts.values[i].toString())) ;
+      buildSvgImage.add(CarModel(getPathByProvince(CarFourParts.values[i]) , Colors.white , CarFourParts.values[i].toString())) ;
     }
   }
   @override

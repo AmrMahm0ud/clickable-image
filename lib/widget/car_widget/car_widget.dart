@@ -7,16 +7,16 @@ class CarWidget extends StatefulWidget {
    final width ;
    final height ;
    Color baseColor;
-   Color basePaintingColor;
+   Color partPaintingColor;
    bool isLandScape;
    final Function(CarModel car) onClick ;
    CarWidget({
    @required this.carModelList,
    @required this.width,
    @required this.height,
-   this.baseColor,
-   this.basePaintingColor,
-   this.isLandScape,
+   this.baseColor=Colors.white,
+   this.partPaintingColor=Colors.red,
+   this.isLandScape=true,
    this.onClick
   });
 
@@ -26,16 +26,6 @@ class CarWidget extends StatefulWidget {
 
 class _CarWidgetState extends State<CarWidget> {
    CarModel _pressedProvince;
-
-   @override
-  void initState() {
-    super.initState();
-    widget.baseColor??=Colors.white10 ;
-    widget.basePaintingColor??=Colors.red;
-    widget.isLandScape??=true;
-   }
-
-
   @override
   Widget build(BuildContext context) {
 
@@ -77,61 +67,64 @@ class _CarWidgetState extends State<CarWidget> {
 
   Widget _buildCar(CarModel car) {
     return ClipPath(
-        child: Stack(children: <Widget>[
-          CustomPaint(painter: PathPainter(car)),
+        child: Stack(
+        children: <Widget>[
           Material(
               color: widget.baseColor,
               child: InkWell(
                   onTap: () => showDialog(
-                      context: context,
-                      builder: (_) => AlertDialog(
-                        title: Text("Do You want to paint it "),
-                        actions: [
-                          FlatButton(
-                            child: Text("yes"),
-                            onPressed: () {
-                              for (int i = 0; i < widget.carModelList.length; i++) {
-                                if (widget.carModelList[i].carSvgParts == car.carSvgParts) {
-                                  setState(() {
-                                    widget.carModelList[i].color = widget.basePaintingColor;
-                                  });
-                                }
+                    context: context,
+                    builder: (_) => AlertDialog(
+                      title: Text("Do You want to paint it "),
+                      actions: [
+                        FlatButton(
+                          child: Text("yes"),
+                          onPressed: () {
+                            for (int i = 0; i < widget.carModelList.length; i++) {
+                              if (widget.carModelList[i].carSvgParts == car.carSvgParts) {
+                                setState(() {
+                                  widget.carModelList[i].color = widget.partPaintingColor;
+                                });
                               }
-                              _carPartPressed(car);
-                              widget.onClick(car);
-                              Navigator.pop(context);
-                            },
-                          ),
-                          FlatButton(
-                            child: Text("NO"),
-                            onPressed: () {
-                              for (int i = 0; i < widget.carModelList.length; i++) {
-                                if (widget.carModelList[i].carSvgParts == car.carSvgParts) {
-                                  setState(() {
-                                    widget.carModelList[i].color = widget.baseColor;
-                                  });
-                                }
+                            }
+                            _carPartPressed(car);
+                            widget.onClick(car);
+                            Navigator.pop(context);
+                          },
+                        ),
+                        FlatButton(
+                          child: Text("NO"),
+                          onPressed: () {
+                            for (int i = 0; i < widget.carModelList.length; i++) {
+                              if (widget.carModelList[i].carSvgParts == car.carSvgParts) {
+                                setState(() {
+                                  widget.carModelList[i].color = widget.baseColor;
+                                });
                               }
-                              Navigator.pop(context);
-                            },
-                          ),
-                          FlatButton(
-                            child: Text("Cancel"),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          )
-                        ],
-                      )),
+                            }
+                            Navigator.pop(context);
+                          },
+                        ),
+                        FlatButton(
+                          child: Text("Cancel"),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                   child: Container(
-                      padding: EdgeInsets.all(2.0),
-                      color: car.color == widget.basePaintingColor //for test
-                          ? widget.basePaintingColor
-                          : widget.baseColor,
+                    padding: EdgeInsets.all(2.0),
+                    color: car.color == widget.partPaintingColor //for test
+                        ? widget.partPaintingColor
+                        : widget.baseColor,
                   )
               )
-          )
-        ]),
+          ),
+          CustomPaint(painter: PathPainter(car)),
+        ]
+        ),
         clipper: PathClipper(car));
   }
 
@@ -155,7 +148,7 @@ class PathPainter extends CustomPainter {
         Paint()
           ..style = PaintingStyle.stroke
           ..color = Colors.black
-          ..strokeWidth = 1.0);
+          ..strokeWidth = 2.0);
   }
 
   @override
