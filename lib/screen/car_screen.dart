@@ -28,9 +28,15 @@ class _CarScreenState extends State<CarScreen> {
       appBar: AppBar(
         title: Text(APP_NAME),
       ),
-      body: CarWidget(carModelList: buildSvgImage, width: 300.0, height: 150.0, onClick: (carModel){
+      body: CarWidget(carModelList: buildSvgImage, width: 300.0, height: 150.0, onYes: (carModel){
         printMethod(carModel.carSvgParts);
       },
+        onNo: (carModel){
+        print("NO");
+        },
+        onCancel: (carModel){
+        print("Cancel");
+        },
       ),
     );
   }

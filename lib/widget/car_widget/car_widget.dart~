@@ -56,7 +56,7 @@ class _CarWidgetState extends State<CarWidget> {
                     width:  widget.width,
                     height: widget.height,
                     child: Stack(children: _buildSvgImage()
-                    ),
+                    )
             ),
           ),
         ),
@@ -94,6 +94,21 @@ class _CarWidgetState extends State<CarWidget> {
             ]
         ),
         clipper: PathClipper(car.carSvgParts));
+  }
+
+
+  _showDialogBox(CarModel car){
+    return showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(TEXT_ASK_TO_PAINT),
+        actions: [
+          yesFlatButton(car),
+          noFlatButton(car),
+          cancelFlatButton(car),
+        ],
+      ),
+    );
   }
 
   //using for build car SVG Image
@@ -163,21 +178,4 @@ class _CarWidgetState extends State<CarWidget> {
   void navPop(){
     Navigator.pop(context);
   }
-
-  _showDialogBox(CarModel car){
-    return showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text(TEXT_ASK_TO_PAINT),
-        actions: [
-          yesFlatButton(car),
-          noFlatButton(car),
-          cancelFlatButton(car),
-        ],
-      ),
-    );
-  }
-
 }
-
-
