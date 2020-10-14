@@ -46,6 +46,7 @@ class _CarWidgetState extends State<CarWidget> {
 
   @override
   Widget build(BuildContext context) {
+    ///interactiveViewer used to zoom and RotatedBox used to Rotated car Clockwise
       return InteractiveViewer(
         minScale: 0.5,
         maxScale: 4,
@@ -71,7 +72,7 @@ class _CarWidgetState extends State<CarWidget> {
 
 
 
-
+  ///ClipPath to Clip container to fill inside path and CustomPaint to draw the path
   Widget _buildCarParts(CarModel car) {
     return ClipPath(
         child: Stack(
@@ -96,7 +97,7 @@ class _CarWidgetState extends State<CarWidget> {
         clipper: PathClipper(car.carSvgParts));
   }
 
-  //using for build car SVG Image
+  ///used to build car Image List
   List<Widget> _buildSvgImage() {
     var list = widget.carModelList;
     List<Widget> carPaths = [];

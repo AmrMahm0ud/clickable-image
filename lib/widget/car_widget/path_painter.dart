@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+
+
+
+/// this class to draw each path
 class PathPainter extends CustomPainter {
 
   final Path _carPartPath;

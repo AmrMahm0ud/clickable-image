@@ -4,7 +4,7 @@ import 'package:built_path_annotations/built_path_annotations.dart';
 
 part 'car_four_svg_data.svg_path.g.dart';
 
-
+///this enum to represent the car paths
 
 enum CarParts  {
   FILL125,
@@ -108,6 +108,11 @@ Path getPathByProvince(CarParts car) {
       return Path();
   }
 }
+
+
+/// We can open our exported SVG image, then we put all SVG data we have in the
+/// property it belongs to. Our build runner will create Paths for us to use
+/// within the app. Run command: flutter packages pub run build_runner build
 
 
 class MapSvgData {

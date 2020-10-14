@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 
+
+/// this class is response for clip the Container
 class PathClipper extends CustomClipper<Path> {
   final Path _carPartPath;
   PathClipper(this._carPartPath);
