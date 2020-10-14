@@ -1,26 +1,34 @@
-import 'package:clickable_regions/model/car_model.dart';
+import'package:flutter/material.dart';
+
+
+import'package:clickable_regions/model/car_model.dart';
 import 'package:clickable_regions/widget/car_widget/path_clipper.dart';
 import 'package:clickable_regions/widget/car_widget/path_painter.dart';
-import 'package:flutter/material.dart';
+
+///TODO zoom widget
 
 
 class CarWidget extends StatefulWidget {
    final List<CarModel> carModelList;
    final width ;
    final height ;
-   Color baseColor;
-   Color partPaintingColor;
-   bool isLandScape;
+   final Color unSelectedPart;
+   final Color selectedPart;
+   final bool isLandScape;
+   final double strokePathWidth;
    final Function(CarModel car) onClick ;
+
+
    CarWidget({
    @required this.carModelList,
    @required this.width,
    @required this.height,
-   this.baseColor=Colors.white,
-   this.partPaintingColor=Colors.red,
+   this.unSelectedPart=Colors.white,
+   this.selectedPart=Colors.red,
    this.isLandScape = true,
-   this.onClick
-  });
+   this.onClick,
+   this.strokePathWidth = 1.0,
+   });
 
   @override
   _CarWidgetState createState() => _CarWidgetState();
@@ -32,120 +40,127 @@ class _CarWidgetState extends State<CarWidget> {
   final String BUTTON_NO = "No";
   final String TEXT_ASK_TO_PAINT = "Do You Want To Paint It";
 
-
-  CarModel _pressedProvince;
   @override
   Widget build(BuildContext context) {
-
-    return  Center(
-      child: RotatedBox(
-        quarterTurns: checkForLandScap(widget.isLandScape),
-            child: Container(
-                width:  widget.width,
-                height: widget.height,
-                child: Stack(children: _buildSvgImage()
-                )
+      return Center(
+        child: RotatedBox(
+          quarterTurns: widget.isLandScape ? 1 : 0 ,
+              child: Container(
+                  width:  widget.width,
+                  height: widget.height,
+                  child: Stack(children: _buildSvgImage()
+                  )
+          ),
         ),
-      ),
-    );
+      );
   }
 
-  //using for build map
+  //using for build car SVG Image
   List<Widget> _buildSvgImage() {
     var list = widget.carModelList;
-    List<Widget> carFourPaths = List(list.length);
-    for (int i = 0; i < list.length; i++) {
-      carFourPaths[i] = _buildCarParts(list[i]);
-    }
-    return carFourPaths;
+    List<Widget> carPaths = [];
+    list.forEach((element) {
+    carPaths.add(_buildCarParts(element));
+    });
+    return carPaths;
   }
 
-  Widget _buildCarParts(CarModel car) {
+  Widget _buildCarParts(CarModel car){
     return ClipPath(
         child: Stack(
         children: <Widget>[
           Material(
-              color: widget.baseColor,
-              child: InkWell(
+              color: widget.unSelectedPart,
+              child: car.isClickable ? InkWell(
                   onTap: () => showDialog(
                     context: context,
                     builder: (_) => AlertDialog(
                       title: Text(TEXT_ASK_TO_PAINT),
                       actions: [
-                        FlatButton(
-                          child: Text(BUTTON_YES),
-                          onPressed: () {
-                            for (int i = 0; i < widget.carModelList.length; i++) {
-                              if (widget.carModelList[i].carSvgParts == car.carSvgParts) {
-                                setState(() {
-                                  widget.carModelList[i].color = widget.partPaintingColor;
-                                });
-                              }
-                            }
-                            _carPartPressed(car);
-                            widget.onClick(car);
-                            navPop();
-                          },
-                        ),
-                        FlatButton(
-                          child: Text(BUTTON_NO),
-                          onPressed: () {
-                            for (int i = 0; i < widget.carModelList.length; i++) {
-                              if (widget.carModelList[i].carSvgParts == car.carSvgParts) {
-                                setState(() {
-                                  widget.carModelList[i].color = widget.baseColor;
-                                });
-                              }
-                            }
-                            navPop();
-                          },
-                        ),
-                        FlatButton(
-                          child: Text(BUTTON_CANCEL),
-                          onPressed: () {
-                          navPop();
-                          },
-                        ),
+                        yesFlatButton(car),
+                        noFlatButton(car),
+                        cancelFlatButton(),
                       ],
                     ),
                   ),
                   child: Container(
-                    padding: EdgeInsets.all(2.0),
-                    color: car.color == widget.partPaintingColor //for test
-                        ? widget.partPaintingColor
-                        : widget.baseColor,
+                    color: car.color == widget.selectedPart
+                        ? widget.selectedPart
+                        : widget.unSelectedPart,
                   )
+              ):
+              Container(
+               color: widget.unSelectedPart,
               )
           ),
-          CustomPaint(painter: PathPainter(car)),
+          CustomPaint(painter: PathPainter(car.carSvgParts , widget.strokePathWidth)),
         ]
         ),
-        clipper: PathClipper(car));
+        clipper: PathClipper(car.carSvgParts));
+  }
+
+  ////////////////////////////////////////////////////////////////////
+  //////////////////////////Widget////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
+
+  Widget yesFlatButton(CarModel car){
+   return FlatButton(
+      child: Text(BUTTON_YES),
+      onPressed: () {
+        int currentIndex = widget.carModelList.indexOf(car);
+        paintPart(car.carSvgParts , currentIndex);
+        widget.onClick(car);
+        navPop();
+      },
+    );
+  }
+
+  Widget noFlatButton(CarModel car){
+    return FlatButton(
+      child: Text(BUTTON_NO),
+      onPressed: () {
+        int currentIndex = widget.carModelList.indexOf(car);
+        unPaintPart(car.carSvgParts  , currentIndex);
+        navPop();
+      },
+    );
+  }
+
+
+  Widget cancelFlatButton(){
+    return FlatButton(
+      child: Text(BUTTON_CANCEL),
+      onPressed: () {
+        navPop();
+      },
+    );
   }
 
 
 
-
-
   ////////////////////////////////////////////////////////////////////
-  //////////////////////Helper Method ////////////////////////////////
+  ////////////////////// Helper Method ////////////////////////////////
   ////////////////////////////////////////////////////////////////////
 
 
-  void _carPartPressed(CarModel province) {
-    setState(() {
-      _pressedProvince = CarModel(province.carSvgParts, province.color , province.name);
-    });
+  void paintPart(Path carPath ,int currentIndex){
+    if(widget.carModelList[currentIndex].carSvgParts == carPath ){
+      setState(() {
+        widget.carModelList[currentIndex].color = widget.selectedPart;
+      });
+    }
+
+  }
+
+  void unPaintPart(Path carPath , int currentIndex){
+    if (widget.carModelList[currentIndex].carSvgParts == carPath) {
+      setState(() {
+        widget.carModelList[currentIndex].color = widget.unSelectedPart;
+      });
+    }
   }
 
   void navPop(){
     Navigator.pop(context);
   }
 }
-
-
- int checkForLandScap(bool isLandScap){
-  if (isLandScap){
-    return 1;
-  }else return 0;
- }

@@ -1,16 +1,15 @@
-
-import 'package:clickable_regions/model/car_model.dart';
 import 'package:flutter/material.dart';
 
+
 class PathClipper extends CustomClipper<Path> {
-  final CarModel _carPart;
-  PathClipper(this._carPart);
+  final Path _carPartPath;
+  PathClipper(this._carPartPath);
 
   @override
   Path getClip(Size size) {
-    return _carPart.carSvgParts;
+    return _carPartPath;
   }
-
+  ///https://api.flutter.dev/flutter/rendering/CustomClipper/shouldReclip.html
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

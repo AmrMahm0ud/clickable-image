@@ -5,6 +5,7 @@ import 'package:built_path_annotations/built_path_annotations.dart';
 part 'car_four_svg_data.svg_path.g.dart';
 
 
+
 enum CarParts  {
   FILL125,
   STROKE126,
@@ -103,8 +104,9 @@ Path getPathByProvince(CarParts car) {
       return MapSvgData.eksdamLb;
     case CarParts.LIGHTSPOTLF:
       return MapSvgData.lightSpotLf;
+    default :
+      return Path();
   }
-  return Path();
 }
 
 

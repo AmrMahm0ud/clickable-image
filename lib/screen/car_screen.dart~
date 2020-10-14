@@ -39,7 +39,7 @@ class _CarScreenState extends State<CarScreen> {
   ///////////////////////////////////////////////
 
   void buildSvgImageList(){
-    List <String> clickAbleList = ['CarParts.EKSEDAMLF','CarParts.RFRFLB','CarParts.DOORLB','CarParts.DOORLF','CarParts.LIGHTSPOTLB','CarParts.WHEELLF','CarParts.STROKEGLASSLF','CarParts.GLASSLB','CarParts.SHORAALB','CarParts.RFRFLF','CarParts.ATBL','CarParts.EKSDAMLB','CarParts.LIGHTSPOTLF'];
+    List <String> clickAbleList = ['CarParts.EKSEDAMLF','CarParts.EKSEDAMLF','CarParts.RFRFLB','CarParts.DOORLB','CarParts.DOORLF','CarParts.LIGHTSPOTLB','CarParts.WHEELLF','CarParts.STROKEGLASSLF','CarParts.GLASSLB','CarParts.SHORAALB','CarParts.RFRFLF','CarParts.ATBL','CarParts.EKSDAMLB','CarParts.LIGHTSPOTLF'];
     for(int i = 0 ; i < CarParts.values.length ; i ++ ){
       buildSvgImage.add(CarModel(getPathByProvince(CarParts.values[i]) , Colors.white , CarParts.values[i].toString(), clickAbleList.contains(CarParts.values[i].toString()) )) ;
     }

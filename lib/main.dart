@@ -1,6 +1,7 @@
-
-import 'file:///E:/final-clickable-image/lib/screen/switch_between_screen.dart';
 import 'package:flutter/material.dart';
+
+
+import 'package:clickable_regions/screen/switch_between_screen.dart';
 
 
 

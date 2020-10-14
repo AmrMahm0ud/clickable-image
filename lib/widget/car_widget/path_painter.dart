@@ -1,31 +1,29 @@
-
-
-
-
-
-import 'package:clickable_regions/model/car_model.dart';
 import 'package:flutter/material.dart';
 
 class PathPainter extends CustomPainter {
 
-  final CarModel _carPart;
-  PathPainter(this._carPart);
+  final Path _carPartPath;
+  final double strokPathWidth;
+  PathPainter(this._carPartPath , this.strokPathWidth);
 
   @override
   void paint(Canvas canvas, Size size) {
-    Path path = _carPart.carSvgParts;
+    Path path = _carPartPath;
     canvas.drawPath(
         path,
         Paint()
           ..style = PaintingStyle.stroke
           ..color = Colors.black
-          ..strokeWidth = 1.0
+          ..strokeWidth = strokPathWidth
     );
   }
 
+  ///https://api.flutter.dev/flutter/rendering/CustomPainter/shouldRepaint.html
   @override
   bool shouldRepaint(PathPainter oldDelegate) => true;
 
+  ///https://api.flutter.dev/flutter/rendering/CustomPainter/shouldRebuildSemantics.html
   @override
   bool shouldRebuildSemantics(PathPainter oldDelegate) => false;
+
 }

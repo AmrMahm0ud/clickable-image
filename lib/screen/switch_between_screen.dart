@@ -1,5 +1,9 @@
-import 'package:clickable_regions/screen/car_screen.dart';
 import 'package:flutter/material.dart';
+
+
+
+import 'package:clickable_regions/screen/car_screen.dart';
+
 
 class SwitchBetWeenScreens extends StatefulWidget {
 
@@ -21,11 +25,19 @@ class _SwitchBetWeenScreensState extends State<SwitchBetWeenScreens> {
         FlatButton(
           color: Colors.grey,
           child: Text(BUTTON_NAME),
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder:  (context) => CarScreen()),
-        ),
+          onPressed: () => navToCarScreen(),
         ),
       ],
     ),
     );
   }
+  ///////////////////////////////////////////////////////////////
+  ////////////////////Helper Method/////////////////////////////
+  /////////////////////////////////////////////////////////////
+
+  void navToCarScreen(){
+    Navigator.push(context , MaterialPageRoute(builder: (context) => CarScreen() ));
+  }
 }
+
+
