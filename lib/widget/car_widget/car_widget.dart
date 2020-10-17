@@ -1,9 +1,14 @@
+import 'package:flutter/cupertino.dart';
 import'package:flutter/material.dart';
 
 
-import'package:clickable_regions/model/car_model.dart';
+import 'package:clickable_regions/bloc/paint_bloc/paint_bloc_bloc.dart';
+import 'package:clickable_regions/bloc/paint_bloc/paint_bloc_event.dart';
+import 'package:clickable_regions/bloc/paint_bloc/paint_bloc_state.dart';
+import 'package:clickable_regions/model/car_model.dart';
 import 'package:clickable_regions/widget/car_widget/path_clipper.dart';
 import 'package:clickable_regions/widget/car_widget/path_painter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 
@@ -53,12 +58,46 @@ class _CarWidgetState extends State<CarWidget> {
         child: Center(
           child: RotatedBox(
             quarterTurns: widget.isLandScape ? 1 : 0 ,
-                child: Container(
-                    width:  widget.width,
-                    height: widget.height,
-                    child: Stack(children: _buildSvgImage()
-                    ),
-            ),
+                  child: BlocConsumer<PaintBloc , PaintState>(
+                    listener: (context, state) {
+                       if(state is OpenDialogState){
+                        _showDialogBox(state.carModel);
+                       }else if (state is SelectedState){
+                          navPop();
+                       }else if (state is UnSelectedState) {
+                         navPop();
+                       }
+                    },
+                    builder: (context, state)  {
+                      if (state is ImageListLoadedState){
+                        return Container(
+                          width:  widget.width,
+                          height: widget.height,
+                          child: Stack(
+                              children: _buildSvgImage(state.imageList),
+                          ),
+                        );
+                      }
+                      else if (state is SelectedState){
+                        return Container(
+                          width:  widget.width,
+                          height: widget.height,
+                          child: Stack(
+                              children: _buildSvgImage(state.imageList)
+                          ),
+                        );
+                      }else if (state is UnSelectedState){
+                        return Container(
+                          width:  widget.width,
+                          height: widget.height,
+                          child: Stack(
+                              children: _buildSvgImage(state.imageList)
+                          ),
+                        );
+                      }
+                      else  return CircularProgressIndicator();
+                    }
+                  ),
           ),
         ),
       );
@@ -80,7 +119,7 @@ class _CarWidgetState extends State<CarWidget> {
               Material(
                   color: widget.unSelectedPart,
                   child: car.isClickable ? InkWell(
-                      onTap: () => _showDialogBox(car),
+                      onTap: () => BlocProvider.of<PaintBloc>(context).add(OpenDialogEvent(car)), //add event
                       child: Container(
                         color: car.color == widget.selectedPart
                             ? widget.selectedPart
@@ -98,8 +137,8 @@ class _CarWidgetState extends State<CarWidget> {
   }
 
   ///used to build car Image List
-  List<Widget> _buildSvgImage() {
-    var list = widget.carModelList;
+  List<Widget> _buildSvgImage(List imageList) {
+    var list = imageList;
     List<Widget> carPaths = [];
     list.forEach((element) {
       carPaths.add(_buildCarParts(element));
@@ -112,9 +151,10 @@ class _CarWidgetState extends State<CarWidget> {
       child: Text(BUTTON_YES),
       onPressed: () {
         int currentIndex = widget.carModelList.indexOf(car);
-        paintPart(car.carSvgParts , currentIndex);
+        BlocProvider.of<PaintBloc>(context).add(YesButtonPressedEvent(currentIndex, widget.carModelList));
+       // paintPart(car.carSvgParts , currentIndex);
         widget.onYes(car);
-        navPop();
+        //navPop();
       },
     );
   }
@@ -124,9 +164,9 @@ class _CarWidgetState extends State<CarWidget> {
       child: Text(BUTTON_NO),
       onPressed: () {
         int currentIndex = widget.carModelList.indexOf(car);
-        unPaintPart(car.carSvgParts  , currentIndex);
+        BlocProvider.of<PaintBloc>(context).add(NoButtonPressedEvent(currentIndex, widget.carModelList));
         widget.onNo(car);
-        navPop();
+        //navPop();
       },
     );
   }
@@ -178,7 +218,6 @@ class _CarWidgetState extends State<CarWidget> {
       ),
     );
   }
-
 }
 
 

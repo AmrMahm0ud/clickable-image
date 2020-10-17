@@ -1,8 +1,11 @@
+import 'package:clickable_regions/bloc/paint_bloc/paint_bloc_repo.dart';
+import 'package:clickable_regions/screen/car_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 
 import 'package:clickable_regions/screen/switch_between_screen.dart';
-import 'package:clickable_regions/bloc/paint_bloc/paint_bloc_repo.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'bloc/paint_bloc/paint_bloc_bloc.dart';
 
 
