@@ -61,7 +61,7 @@ class _CarWidgetState extends State<CarWidget> {
                   child: BlocConsumer<PaintBloc , PaintState>(
                     listener: (context, state) {
                        if(state is OpenDialogState){
-                        _showDialogBox(state.carModel);
+                        _showDialogBox(state.carModel , context);
                        }else if (state is SelectedState){
                           navPop();
                        }else if (state is UnSelectedState) {
@@ -146,7 +146,7 @@ class _CarWidgetState extends State<CarWidget> {
     return carPaths;
   }
 
-  Widget yesFlatButton(CarModel car){
+  Widget yesFlatButton(CarModel car , BuildContext context){
    return FlatButton(
       child: Text(BUTTON_YES),
       onPressed: () {
@@ -205,13 +205,13 @@ class _CarWidgetState extends State<CarWidget> {
     Navigator.pop(context);
   }
 
-  _showDialogBox(CarModel car){
+  _showDialogBox(CarModel car , BuildContext context){
     return showDialog(
       context: context,
       builder: (_) => AlertDialog(
         title: Text(TEXT_ASK_TO_PAINT),
         actions: [
-          yesFlatButton(car),
+          yesFlatButton(car , context),
           noFlatButton(car),
           cancelFlatButton(car),
         ],
