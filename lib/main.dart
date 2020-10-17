@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => PaintBloc(PaintRepostrey()),
+      create: (BuildContext context) => PaintBloc(PaintRepostrey()),
       child: MaterialApp(
           title: 'clickable image ',
           theme: ThemeData(primarySwatch: Colors.blue),

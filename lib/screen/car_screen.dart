@@ -27,6 +27,7 @@ class _CarScreenState extends State<CarScreen> {
             builder: (context, state) {
             if (state is ImageListLoadedState){
               return CarWidget(
+                pcontext: context,
                 carModelList: state.imageList,
                 width: 300.0,
                 height: 150.0,

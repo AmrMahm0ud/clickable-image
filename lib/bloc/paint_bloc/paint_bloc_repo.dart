@@ -17,7 +17,7 @@ class PaintRepostrey implements PaintBlocRepo {
    ///method to build to build image list
     @override
     PaintState buildSvgImageList() {
-    PaintState paintState ;
+      PaintState paintState ;
     List<CarModel> listSvgImage = [] ;
     List <String> clickAbleList = ['CarParts.EKSEDAMLF','CarParts.RFRFLB','CarParts.DOORLB','CarParts.DOORLF','CarParts.LIGHTSPOTLB','CarParts.WHEELLF','CarParts.GLASSLB','CarParts.SHORAALB','CarParts.RFRFLF','CarParts.ATBL','CarParts.EKSDAMLB','CarParts.LIGHTSPOTLF'];
     for(int i = 0 ; i < CarParts.values.length ; i ++ ){
@@ -29,8 +29,10 @@ class PaintRepostrey implements PaintBlocRepo {
    ///Paint Part method
   @override
   PaintState paintPart(int index , List<CarModel> imageList) {
-      imageList[index].color = Colors.red ;
-      return SelectedState(imageList);
+      PaintState paintState;
+      imageList[index].color = Colors.red;
+      paintState = SelectedState(imageList);
+      return paintState;
     }
 
     @override
@@ -38,6 +40,4 @@ class PaintRepostrey implements PaintBlocRepo {
         imageList[index].color = Colors.white ;
         return UnSelectedState(imageList);
     }
-
-
 }

@@ -13,6 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class CarWidget extends StatefulWidget {
+   final BuildContext pcontext ;
    final List<CarModel> carModelList;
    final width ;
    final height ;
@@ -33,6 +34,8 @@ class CarWidget extends StatefulWidget {
    @required this.onYes,
    @required this.onNo,
    @required this.onCancel,
+   @required this.pcontext,
+
    this.unSelectedPart=Colors.white,
    this.selectedPart=Colors.red,
    this.isLandScape = true,
@@ -59,16 +62,18 @@ class _CarWidgetState extends State<CarWidget> {
           child: RotatedBox(
             quarterTurns: widget.isLandScape ? 1 : 0 ,
                   child: BlocConsumer<PaintBloc , PaintState>(
-                    listener: (context, state) {
+                    listener: (context , state) {
+                      print(state);
                        if(state is OpenDialogState){
                         _showDialogBox(state.carModel , context);
                        }else if (state is SelectedState){
-                          navPop();
+                         navPop();
                        }else if (state is UnSelectedState) {
                          navPop();
                        }
                     },
-                    builder: (context, state)  {
+                    builder: (context, state){
+                    //  print(state);
                       if (state is ImageListLoadedState){
                         return Container(
                           width:  widget.width,
@@ -95,7 +100,7 @@ class _CarWidgetState extends State<CarWidget> {
                           ),
                         );
                       }
-                      else  return CircularProgressIndicator();
+                      else return CircularProgressIndicator();
                     }
                   ),
           ),
@@ -119,7 +124,7 @@ class _CarWidgetState extends State<CarWidget> {
               Material(
                   color: widget.unSelectedPart,
                   child: car.isClickable ? InkWell(
-                      onTap: () => BlocProvider.of<PaintBloc>(context).add(OpenDialogEvent(car)), //add event
+                      onTap: () => BlocProvider.of<PaintBloc>(widget.pcontext).add(OpenDialogEvent(car)), //add event
                       child: Container(
                         color: car.color == widget.selectedPart
                             ? widget.selectedPart
@@ -146,15 +151,12 @@ class _CarWidgetState extends State<CarWidget> {
     return carPaths;
   }
 
-  Widget yesFlatButton(CarModel car , BuildContext context){
+  Widget yesFlatButton(CarModel car){
    return FlatButton(
       child: Text(BUTTON_YES),
       onPressed: () {
         int currentIndex = widget.carModelList.indexOf(car);
-        BlocProvider.of<PaintBloc>(context).add(YesButtonPressedEvent(currentIndex, widget.carModelList));
-       // paintPart(car.carSvgParts , currentIndex);
-        widget.onYes(car);
-        //navPop();
+        BlocProvider.of<PaintBloc>(widget.pcontext).add(YesButtonPressedEvent(currentIndex, widget.carModelList));
       },
     );
   }
@@ -164,8 +166,8 @@ class _CarWidgetState extends State<CarWidget> {
       child: Text(BUTTON_NO),
       onPressed: () {
         int currentIndex = widget.carModelList.indexOf(car);
-        BlocProvider.of<PaintBloc>(context).add(NoButtonPressedEvent(currentIndex, widget.carModelList));
-        widget.onNo(car);
+        BlocProvider.of<PaintBloc>(widget.pcontext).add(NoButtonPressedEvent(currentIndex, widget.carModelList));
+        //widget.onNo(car);
         //navPop();
       },
     );
@@ -176,7 +178,7 @@ class _CarWidgetState extends State<CarWidget> {
     return FlatButton(
       child: Text(BUTTON_CANCEL),
       onPressed: () {
-        widget.onCancel(car);
+        //widget.onCancel(car);
         navPop();
       },
     );
@@ -188,30 +190,30 @@ class _CarWidgetState extends State<CarWidget> {
   ////////////////////// Helper Method ////////////////////////////////
   ////////////////////////////////////////////////////////////////////
 
-
-  void paintPart(Path carPath ,int currentIndex){
-      setState(() {
-        widget.carModelList[currentIndex].color = widget.selectedPart;
-      });
-  }
-
-  void unPaintPart(Path carPath , int currentIndex){
-      setState(() {
-        widget.carModelList[currentIndex].color = widget.unSelectedPart;
-      });
-  }
+//
+//  void paintPart(Path carPath ,int currentIndex){
+//      setState(() {
+//        widget.carModelList[currentIndex].color = widget.selectedPart;
+//      });
+//  }
+//
+//  void unPaintPart(Path carPath , int currentIndex){
+//      setState(() {
+//        widget.carModelList[currentIndex].color = widget.unSelectedPart;
+//      });
+//  }
 
   void navPop(){
-    Navigator.pop(context);
+    Navigator.pop(widget.pcontext);
   }
 
   _showDialogBox(CarModel car , BuildContext context){
     return showDialog(
-      context: context,
+      context: widget.pcontext,
       builder: (_) => AlertDialog(
         title: Text(TEXT_ASK_TO_PAINT),
         actions: [
-          yesFlatButton(car , context),
+          yesFlatButton(car),
           noFlatButton(car),
           cancelFlatButton(car),
         ],
