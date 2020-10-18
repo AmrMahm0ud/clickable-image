@@ -27,8 +27,6 @@ class PaintBloc extends Bloc<PaintEvent, PaintState> {
        //PaintState paintState ;
        yield CancelState();
        //print(paintState);
-
     }
   }
-
 }
