@@ -163,8 +163,6 @@ class _CarWidgetState extends State<CarWidget> {
       onPressed: () {
         int currentIndex = widget.carModelList.indexOf(car);
         BlocProvider.of<PaintBloc>(widget.pcontext).add(NoButtonPressedEvent(currentIndex, widget.carModelList));
-        //widget.onNo(car);
-        //navPop();
       },
     );
   }
@@ -174,8 +172,7 @@ class _CarWidgetState extends State<CarWidget> {
     return FlatButton(
       child: Text(BUTTON_CANCEL),
       onPressed: () {
-        //widget.onCancel(car);
-        navPop();
+        BlocProvider.of<PaintBloc>(widget.pcontext).add(CancelButtonPressedEvent());
       },
     );
   }
@@ -185,19 +182,6 @@ class _CarWidgetState extends State<CarWidget> {
   ////////////////////////////////////////////////////////////////////
   ////////////////////// Helper Method ////////////////////////////////
   ////////////////////////////////////////////////////////////////////
-
-//
-//  void paintPart(Path carPath ,int currentIndex){
-//      setState(() {
-//        widget.carModelList[currentIndex].color = widget.selectedPart;
-//      });
-//  }
-//
-//  void unPaintPart(Path carPath , int currentIndex){
-//      setState(() {
-//        widget.carModelList[currentIndex].color = widget.unSelectedPart;
-//      });
-//  }
 
   void navPop(){
     Navigator.pop(widget.pcontext);

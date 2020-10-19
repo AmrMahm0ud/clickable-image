@@ -40,5 +40,4 @@ class PaintRepostrey implements PaintBlocRepo {
         imageList[index].color = Colors.white ;
         return UnSelectedState(imageList);
     }
-
 }
