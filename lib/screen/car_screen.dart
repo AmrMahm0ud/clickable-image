@@ -16,12 +16,13 @@ class _CarScreenState extends State<CarScreen> {
   CarModel carModel ;
   List<CarModel> buildSvgImage = [];
 
-
+  ///used to build image list path before Screen build
   @override
   void initState() {
     super.initState();
     buildSvgImageList();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,6 +45,7 @@ class _CarScreenState extends State<CarScreen> {
   ////////////Helper Method///////////////////////
   ///////////////////////////////////////////////
 
+/// used to build imageList and send it to carWidget to build image
   void buildSvgImageList(){
     List <String> clickAbleList = ['CarParts.EKSEDAMLF','CarParts.RFRFLB','CarParts.DOORLB','CarParts.DOORLF','CarParts.LIGHTSPOTLB','CarParts.WHEELLF','CarParts.GLASSLB','CarParts.SHORAALB','CarParts.RFRFLF','CarParts.ATBL','CarParts.EKSDAMLB','CarParts.LIGHTSPOTLF'];
     for(int i = 0 ; i < CarParts.values.length ; i ++ ){

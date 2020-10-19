@@ -48,14 +48,17 @@ class _CarWidgetState extends State<CarWidget> {
   Widget build(BuildContext context) {
     ///interactiveViewer used to zoom and RotatedBox used to Rotated car Clockwise
       return InteractiveViewer(
+       ///InteractiveViewer take min scale and maxScale in other words max zoom out and zoom in
         minScale: 0.5,
         maxScale: 4,
         child: Center(
           child: RotatedBox(
+            ///quarterTurns take the number of cloukwise round you need your widget to take .. in this widget we used 0 or 1 only
             quarterTurns: widget.isLandScape ? 1 : 0 ,
                 child: Container(
                     width:  widget.width,
                     height: widget.height,
+                    ///here we put all widget in a stack
                     child: Stack(children: _buildSvgImage()
                     ),
             ),
@@ -74,6 +77,7 @@ class _CarWidgetState extends State<CarWidget> {
 
   ///ClipPath to Clip container to fill inside path and CustomPaint to draw the path
   Widget _buildCarParts(CarModel car) {
+    ///ClipPath to clip the Contaner in the shap of the path
     return ClipPath(
         child: Stack(
             children: <Widget>[
@@ -91,14 +95,18 @@ class _CarWidgetState extends State<CarWidget> {
                     color: widget.unSelectedPart,
                   )
               ),
+              ///custom paint to draw the path
+              ///PathPainter take the path and the width
               CustomPaint(painter: PathPainter(car.carSvgParts , widget.strokePathWidth)),
             ]
         ),
+        /// you must send the path to pathclipper to clip the contaner
         clipper: PathClipper(car.carSvgParts));
   }
 
   ///used to build car Image List
   List<Widget> _buildSvgImage() {
+    ///i used the list path to build list of widget
     var list = widget.carModelList;
     List<Widget> carPaths = [];
     list.forEach((element) {
@@ -106,11 +114,12 @@ class _CarWidgetState extends State<CarWidget> {
     });
     return carPaths;
   }
-
+ ///Yes FlatButton to paint the pressed part
   Widget yesFlatButton(CarModel car){
    return FlatButton(
       child: Text(BUTTON_YES),
       onPressed: () {
+        ///here you must git the currentindex and send it to paintpart method
         int currentIndex = widget.carModelList.indexOf(car);
         paintPart(car.carSvgParts , currentIndex);
         widget.onYes(car);
@@ -118,11 +127,12 @@ class _CarWidgetState extends State<CarWidget> {
       },
     );
   }
-
+  ///here this method used to undo the paint part
   Widget noFlatButton(CarModel car){
     return FlatButton(
       child: Text(BUTTON_NO),
       onPressed: () {
+        ///here you must git the currentindex and send it to Unpaintpart method
         int currentIndex = widget.carModelList.indexOf(car);
         unPaintPart(car.carSvgParts  , currentIndex);
         widget.onNo(car);
@@ -131,7 +141,7 @@ class _CarWidgetState extends State<CarWidget> {
     );
   }
 
-
+  /// this only to pop dialog
   Widget cancelFlatButton(CarModel car){
     return FlatButton(
       child: Text(BUTTON_CANCEL),
@@ -164,7 +174,7 @@ class _CarWidgetState extends State<CarWidget> {
   void navPop(){
     Navigator.pop(context);
   }
-
+  ///this dialod show when part is clicked
   _showDialogBox(CarModel car){
     return showDialog(
       context: context,

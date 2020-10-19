@@ -14,6 +14,7 @@ class SwitchBetWeenScreens extends StatefulWidget {
 class _SwitchBetWeenScreensState extends State<SwitchBetWeenScreens> {
   final String APP_NAME = 'Car App';
   final String  BUTTON_NAME= 'Side Car';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

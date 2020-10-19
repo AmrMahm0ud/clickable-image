@@ -2,7 +2,6 @@ import'package:flutter/material.dart';
 
 
 
-
 class CarModel {
 
   Path carSvgParts;

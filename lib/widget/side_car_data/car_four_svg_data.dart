@@ -41,7 +41,7 @@ enum CarParts  {
 
 
 
-
+///here i check for each path and return it's path
 Path getPathByProvince(CarParts car) {
   switch (car) {
     case CarParts.FILL125:
