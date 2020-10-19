@@ -4,8 +4,9 @@ import 'package:clickable_regions/model/car_model.dart';
 abstract class PaintEvent {
 }
 
-class BuildImageListEvent extends PaintEvent {
-
+class ShowCarEvent extends PaintEvent {
+final List<CarModel> imageList;
+ShowCarEvent(this.imageList);
 }
 
 class YesButtonPressedEvent extends PaintEvent {
@@ -23,7 +24,8 @@ class NoButtonPressedEvent extends PaintEvent {
 
 
 class CancelButtonPressedEvent extends PaintEvent {
-
+ final List<CarModel> imageList;
+ CancelButtonPressedEvent(this.imageList);
 }
 
 class OpenDialogEvent extends PaintEvent {

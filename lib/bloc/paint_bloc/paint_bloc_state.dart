@@ -21,7 +21,8 @@ class UnSelectedState extends PaintState{
 }
 
 class CancelState extends PaintState {
-  CancelState();
+  List<CarModel> imageList ;
+  CancelState(this.imageList);
 }
 
 

@@ -13,23 +13,16 @@ class PaintBloc extends Bloc<PaintEvent, PaintState> {
 
 
   @override
-  void onTransition(Transition<PaintEvent, PaintState> transition) {
-    super.onTransition(transition);
-    print(transition);
-  }
-
-  @override
   Stream<PaintState> mapEventToState(PaintEvent event) async* {
-    print(event);
-    if (event is BuildImageListEvent){
-      yield paintBlocRepo.buildSvgImageList();
+    if (event is ShowCarEvent){
+      yield ImageListLoadedState(event.imageList);
     }
     else if (event is OpenDialogEvent) {
       yield OpenDialogState(event.carModel);
     }else if (event is YesButtonPressedEvent) {
        yield paintBlocRepo.paintPart(event.index, event.imageList);
     } else if (event is CancelButtonPressedEvent){
-      yield CancelState();
+      yield CancelState(event.imageList);
     }else if (event is NoButtonPressedEvent){
       yield paintBlocRepo.unPaintPart(event.index, event.imageList);
     }

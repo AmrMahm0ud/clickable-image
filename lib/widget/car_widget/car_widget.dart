@@ -13,7 +13,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class CarWidget extends StatefulWidget {
-   final BuildContext pcontext ;
    final List<CarModel> carModelList;
    final width ;
    final height ;
@@ -34,7 +33,6 @@ class CarWidget extends StatefulWidget {
    @required this.onYes,
    @required this.onNo,
    @required this.onCancel,
-   @required this.pcontext,
 
    this.unSelectedPart=Colors.white,
    this.selectedPart=Colors.red,
@@ -46,11 +44,18 @@ class CarWidget extends StatefulWidget {
   _CarWidgetState createState() => _CarWidgetState();
 }
 
+
 class _CarWidgetState extends State<CarWidget> {
   final String BUTTON_CANCEL = "Cancel";
   final String BUTTON_YES = "Yes" ;
   final String BUTTON_NO = "No";
   final String TEXT_ASK_TO_PAINT = "Do You Want To Paint It";
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<PaintBloc>(context).add(ShowCarEvent(widget.carModelList));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,9 +68,8 @@ class _CarWidgetState extends State<CarWidget> {
             quarterTurns: widget.isLandScape ? 1 : 0 ,
                   child: BlocConsumer<PaintBloc , PaintState>(
                     listener: (context , state) {
-                      print(state);
                        if(state is OpenDialogState){
-                         _showDialogBox(state.carModel , context);
+                         _showDialogBox(state.carModel);
                        }else if (state is SelectedState){
                          navPop();
                        }else if (state is UnSelectedState) {
@@ -75,7 +79,6 @@ class _CarWidgetState extends State<CarWidget> {
                        }
                     },
                     builder: (context, state){
-                      print(state);
                       if (state is ImageListLoadedState){
                         return _buildImageWidget(state.imageList);
                       }
@@ -83,8 +86,12 @@ class _CarWidgetState extends State<CarWidget> {
                         return _buildImageWidget(state.imageList);
                       }else if (state is UnSelectedState){
                         return _buildImageWidget(state.imageList);
+                      }else if (state is CancelState){
+                        return _buildImageWidget(state.imageList);
                       }
-                      else return CircularProgressIndicator();
+                      else {
+                        return _buildImageWidget(widget.carModelList);
+                      }
                     }
                   ),
           ),
@@ -120,7 +127,7 @@ class _CarWidgetState extends State<CarWidget> {
               Material(
                   color: widget.unSelectedPart,
                   child: car.isClickable ? InkWell(
-                      onTap: () => BlocProvider.of<PaintBloc>(widget.pcontext).add(OpenDialogEvent(car)), //add event
+                      onTap: () => BlocProvider.of<PaintBloc>(context).add(OpenDialogEvent(car)), //add event
                       child: Container(
                         color: car.color == widget.selectedPart
                             ? widget.selectedPart
@@ -152,7 +159,7 @@ class _CarWidgetState extends State<CarWidget> {
       child: Text(BUTTON_YES),
       onPressed: () {
         int currentIndex = widget.carModelList.indexOf(car);
-        BlocProvider.of<PaintBloc>(widget.pcontext).add(YesButtonPressedEvent(currentIndex, widget.carModelList));
+        BlocProvider.of<PaintBloc>(context).add(YesButtonPressedEvent(currentIndex, widget.carModelList));
       },
     );
   }
@@ -162,7 +169,7 @@ class _CarWidgetState extends State<CarWidget> {
       child: Text(BUTTON_NO),
       onPressed: () {
         int currentIndex = widget.carModelList.indexOf(car);
-        BlocProvider.of<PaintBloc>(widget.pcontext).add(NoButtonPressedEvent(currentIndex, widget.carModelList));
+        BlocProvider.of<PaintBloc>(context).add(NoButtonPressedEvent(currentIndex, widget.carModelList));
       },
     );
   }
@@ -172,7 +179,7 @@ class _CarWidgetState extends State<CarWidget> {
     return FlatButton(
       child: Text(BUTTON_CANCEL),
       onPressed: () {
-        BlocProvider.of<PaintBloc>(widget.pcontext).add(CancelButtonPressedEvent());
+        BlocProvider.of<PaintBloc>(context).add(CancelButtonPressedEvent(widget.carModelList));
       },
     );
   }
@@ -184,12 +191,12 @@ class _CarWidgetState extends State<CarWidget> {
   ////////////////////////////////////////////////////////////////////
 
   void navPop(){
-    Navigator.pop(widget.pcontext);
+    Navigator.pop(context);
   }
 
-  _showDialogBox(CarModel car , BuildContext context){
+  _showDialogBox(CarModel car){
     return showDialog(
-      context: widget.pcontext,
+      context: context,
       builder: (context) => AlertDialog(
         title: Text(TEXT_ASK_TO_PAINT),
         actions: [
