@@ -12,8 +12,8 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => PaintBloc(PaintRepostrey()),
+    return BlocProvider<PaintBloc>(
+      create: (context) => PaintBloc(PaintRepostrey()),
       child: MaterialApp(
           title: 'clickable image ',
           theme: ThemeData(primarySwatch: Colors.blue),

@@ -9,24 +9,29 @@ import 'package:clickable_regions/bloc/paint_bloc/paint_bloc_state.dart';
 
 class PaintBloc extends Bloc<PaintEvent, PaintState> {
   final PaintBlocRepo paintBlocRepo;
-  PaintBloc(this.paintBlocRepo) : super(null);
+  PaintBloc(this.paintBlocRepo) : super(InitialState());
+
+
+  @override
+  void onTransition(Transition<PaintEvent, PaintState> transition) {
+    super.onTransition(transition);
+    print(transition);
+  }
 
   @override
   Stream<PaintState> mapEventToState(PaintEvent event) async* {
     print(event);
     if (event is BuildImageListEvent){
-
       yield paintBlocRepo.buildSvgImageList();
-
     }
     else if (event is OpenDialogEvent) {
-
       yield OpenDialogState(event.carModel);
-
     }else if (event is YesButtonPressedEvent) {
-       //PaintState paintState ;
-       yield CancelState();
-       //print(paintState);
+       yield paintBlocRepo.paintPart(event.index, event.imageList);
+    } else if (event is CancelButtonPressedEvent){
+      yield CancelState();
+    }else if (event is NoButtonPressedEvent){
+      yield paintBlocRepo.unPaintPart(event.index, event.imageList);
     }
   }
 }

@@ -1,4 +1,3 @@
-
 import 'package:clickable_regions/bloc/paint_bloc/paint_bloc_state.dart';
 import 'package:clickable_regions/model/car_model.dart';
 import 'package:clickable_regions/widget/side_car_data/car_four_svg_data.dart';
@@ -17,7 +16,7 @@ class PaintRepostrey implements PaintBlocRepo {
    ///method to build to build image list
     @override
     PaintState buildSvgImageList() {
-      PaintState paintState ;
+    PaintState paintState ;
     List<CarModel> listSvgImage = [] ;
     List <String> clickAbleList = ['CarParts.EKSEDAMLF','CarParts.RFRFLB','CarParts.DOORLB','CarParts.DOORLF','CarParts.LIGHTSPOTLB','CarParts.WHEELLF','CarParts.GLASSLB','CarParts.SHORAALB','CarParts.RFRFLF','CarParts.ATBL','CarParts.EKSDAMLB','CarParts.LIGHTSPOTLF'];
     for(int i = 0 ; i < CarParts.values.length ; i ++ ){
@@ -26,6 +25,7 @@ class PaintRepostrey implements PaintBlocRepo {
     paintState = ImageListLoadedState(listSvgImage);
     return paintState;
   }
+
    ///Paint Part method
   @override
   PaintState paintPart(int index , List<CarModel> imageList) {
@@ -40,4 +40,5 @@ class PaintRepostrey implements PaintBlocRepo {
         imageList[index].color = Colors.white ;
         return UnSelectedState(imageList);
     }
+
 }

@@ -65,40 +65,24 @@ class _CarWidgetState extends State<CarWidget> {
                     listener: (context , state) {
                       print(state);
                        if(state is OpenDialogState){
-                        _showDialogBox(state.carModel , context);
+                         _showDialogBox(state.carModel , context);
                        }else if (state is SelectedState){
                          navPop();
                        }else if (state is UnSelectedState) {
                          navPop();
+                       }else if (state is CancelState){
+                         navPop();
                        }
                     },
                     builder: (context, state){
-                    //  print(state);
+                      print(state);
                       if (state is ImageListLoadedState){
-                        return Container(
-                          width:  widget.width,
-                          height: widget.height,
-                          child: Stack(
-                              children: _buildSvgImage(state.imageList),
-                          ),
-                        );
+                        return _buildImageWidget(state.imageList);
                       }
                       else if (state is SelectedState){
-                        return Container(
-                          width:  widget.width,
-                          height: widget.height,
-                          child: Stack(
-                              children: _buildSvgImage(state.imageList)
-                          ),
-                        );
+                        return _buildImageWidget(state.imageList);
                       }else if (state is UnSelectedState){
-                        return Container(
-                          width:  widget.width,
-                          height: widget.height,
-                          child: Stack(
-                              children: _buildSvgImage(state.imageList)
-                          ),
-                        );
+                        return _buildImageWidget(state.imageList);
                       }
                       else return CircularProgressIndicator();
                     }
@@ -115,6 +99,18 @@ class _CarWidgetState extends State<CarWidget> {
   ////////////////////////////////////////////////////////////////////
 
 
+
+
+  Widget _buildImageWidget(List imageList) {
+    return Container(
+      width: widget.width,
+      height: widget.height,
+      child: Stack(
+        children: _buildSvgImage(imageList),
+      ),
+    );
+
+  }
 
   ///ClipPath to Clip container to fill inside path and CustomPaint to draw the path
   Widget _buildCarParts(CarModel car) {
@@ -210,7 +206,7 @@ class _CarWidgetState extends State<CarWidget> {
   _showDialogBox(CarModel car , BuildContext context){
     return showDialog(
       context: widget.pcontext,
-      builder: (_) => AlertDialog(
+      builder: (context) => AlertDialog(
         title: Text(TEXT_ASK_TO_PAINT),
         actions: [
           yesFlatButton(car),
