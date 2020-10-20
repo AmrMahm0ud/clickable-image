@@ -1,37 +1,39 @@
 import'package:flutter/material.dart';
 
 
-import'package:clickable_regions/model/car_model.dart';
+import 'package:clickable_regions/model/car_model.dart';
 import 'package:clickable_regions/widget/car_widget/path_clipper.dart';
 import 'package:clickable_regions/widget/car_widget/path_painter.dart';
-
+import 'package:clickable_regions/svg_parser/parser.dart';
 
 
 class CarWidget extends StatefulWidget {
-   final List<CarModel> carModelList;
    final width ;
    final height ;
-   final Color unSelectedPart;
-   final Color selectedPart;
+   final Color unSelectedPartColor;
+   final Color selectedPartColor;
    final bool isLandScape;
-   final double strokePathWidth;
+   final double borderPathWidth;
    final Function(CarModel car) onYes ;
    final Function(CarModel car) onNo ;
    final Function(CarModel car) onCancel ;
+   final String svgPath ;
 
 
 
    CarWidget({
-   @required this.carModelList,
+   @required this.svgPath,
    @required this.width,
    @required this.height,
    @required this.onYes,
    @required this.onNo,
    @required this.onCancel,
-   this.unSelectedPart=Colors.white,
-   this.selectedPart=Colors.red,
+
+
+   this.unSelectedPartColor=Colors.white,
+   this.selectedPartColor=Colors.red,
    this.isLandScape = true,
-   this.strokePathWidth = 1.0,
+   this.borderPathWidth = 1.0,
    });
 
   @override
@@ -43,6 +45,17 @@ class _CarWidgetState extends State<CarWidget> {
   final String BUTTON_YES = "Yes" ;
   final String BUTTON_NO = "No";
   final String TEXT_ASK_TO_PAINT = "Do You Want To Paint It";
+  bool loadingState = false;
+  CarModel carModel ;
+  List<CarModel> svgImageList = [];
+  List<Path> paths = [];
+
+
+  @override
+  void initState() {
+    super.initState();
+    parseSvgToPath();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +72,10 @@ class _CarWidgetState extends State<CarWidget> {
                     width:  widget.width,
                     height: widget.height,
                     ///here we put all widget in a stack
-                    child: Stack(children: _buildSvgImage()
+                    child: Transform.scale(
+                      scale: 1.5,
+                      child: loadingState ? CircularProgressIndicator() : Stack(children: _buildSvgImage()
+                      ),
                     ),
             ),
           ),
@@ -82,22 +98,19 @@ class _CarWidgetState extends State<CarWidget> {
         child: Stack(
             children: <Widget>[
               Material(
-                  color: widget.unSelectedPart,
-                  child: car.isClickable ? InkWell(
+                  color: widget.unSelectedPartColor,
+                  child: InkWell(
                       onTap: () => _showDialogBox(car),
                       child: Container(
-                        color: car.color == widget.selectedPart
-                            ? widget.selectedPart
-                            : widget.unSelectedPart,
+                        color: car.color == widget.selectedPartColor
+                            ? widget.selectedPartColor
+                            : widget.unSelectedPartColor,
                       )
-                  ):
-                  Container(
-                    color: widget.unSelectedPart,
                   )
               ),
               ///custom paint to draw the path
               ///PathPainter take the path and the width
-              CustomPaint(painter: PathPainter(car.carSvgParts , widget.strokePathWidth)),
+              CustomPaint(painter: PathPainter(car.carSvgParts , widget.borderPathWidth)),
             ]
         ),
         /// you must send the path to pathclipper to clip the contaner
@@ -107,10 +120,13 @@ class _CarWidgetState extends State<CarWidget> {
   ///used to build car Image List
   List<Widget> _buildSvgImage() {
     ///i used the list path to build list of widget
-    var list = widget.carModelList;
+    var list = svgImageList;
     List<Widget> carPaths = [];
     list.forEach((element) {
       carPaths.add(_buildCarParts(element));
+    });
+    setState(() {
+      loadingState = false ;
     });
     return carPaths;
   }
@@ -120,7 +136,7 @@ class _CarWidgetState extends State<CarWidget> {
       child: Text(BUTTON_YES),
       onPressed: () {
         ///here you must git the currentindex and send it to paintpart method
-        int currentIndex = widget.carModelList.indexOf(car);
+        int currentIndex = svgImageList.indexOf(car);
         paintPart(car.carSvgParts , currentIndex);
         widget.onYes(car);
         navPop();
@@ -133,7 +149,7 @@ class _CarWidgetState extends State<CarWidget> {
       child: Text(BUTTON_NO),
       onPressed: () {
         ///here you must git the currentindex and send it to Unpaintpart method
-        int currentIndex = widget.carModelList.indexOf(car);
+        int currentIndex = svgImageList.indexOf(car);
         unPaintPart(car.carSvgParts  , currentIndex);
         widget.onNo(car);
         navPop();
@@ -161,13 +177,13 @@ class _CarWidgetState extends State<CarWidget> {
 
   void paintPart(Path carPath ,int currentIndex){
       setState(() {
-        widget.carModelList[currentIndex].color = widget.selectedPart;
+        svgImageList[currentIndex].color = widget.selectedPartColor;
       });
   }
 
   void unPaintPart(Path carPath , int currentIndex){
       setState(() {
-        widget.carModelList[currentIndex].color = widget.unSelectedPart;
+        svgImageList[currentIndex].color = widget.unSelectedPartColor;
       });
   }
 
@@ -189,6 +205,27 @@ class _CarWidgetState extends State<CarWidget> {
     );
   }
 
+
+  void buildSvgImageList(List<Path> imageList ){
+    //List <String> clickAbleList = ['CarParts.EKSEDAMLF','CarParts.RFRFLB','CarParts.DOORLB','CarParts.DOORLF','CarParts.LIGHTSPOTLB','CarParts.WHEELLF','CarParts.GLASSLB','CarParts.SHORAALB','CarParts.RFRFLF','CarParts.ATBL','CarParts.EKSDAMLB','CarParts.LIGHTSPOTLF'];
+    for(int i = 0 ; i < imageList.length ; i ++ ){
+      svgImageList.add(CarModel(imageList[i] , Colors.white)) ;
+    }
+  }
+
+  ///give the SVG path to parser
+  void parseSvgToPath() {
+    SvgParser parser = SvgParser();
+    parser.loadFromFile(widget.svgPath).then((value) {
+      setState(() {
+        paths = parser.getPaths();
+        buildSvgImageList(paths);
+      });
+    });
+  }
+
 }
+
+
 
 
