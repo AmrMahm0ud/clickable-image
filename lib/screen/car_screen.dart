@@ -19,7 +19,7 @@ class _CarScreenState extends State<CarScreen> {
         title: Text(APP_NAME),
       ),
       body: CarWidget(svgPath: svgPath, width: 300.0, height: 150.0, onYes: (carModel){
-            printMethod(carModel.carSvgParts);
+            printMethod(carModel.pathModel.path);
           },
             onNo: (carModel){
             print("NO");

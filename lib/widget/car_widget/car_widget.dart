@@ -1,10 +1,11 @@
+import 'package:clickable_regions/model/path_model.dart';
 import'package:flutter/material.dart';
-
+import 'package:xml/xml.dart' as xml;
 
 import 'package:clickable_regions/model/car_model.dart';
 import 'package:clickable_regions/widget/car_widget/path_clipper.dart';
 import 'package:clickable_regions/widget/car_widget/path_painter.dart';
-import 'package:clickable_regions/svg_parser/parser.dart';
+import 'package:clickable_regions/svg_parser/path_parser.dart';
 
 
 class CarWidget extends StatefulWidget {
@@ -18,6 +19,7 @@ class CarWidget extends StatefulWidget {
    final Function(CarModel car) onNo ;
    final Function(CarModel car) onCancel ;
    final String svgPath ;
+   final List clickableParts ;
 
 
 
@@ -29,7 +31,7 @@ class CarWidget extends StatefulWidget {
    @required this.onNo,
    @required this.onCancel,
 
-
+   this.clickableParts,
    this.unSelectedPartColor=Colors.white,
    this.selectedPartColor=Colors.red,
    this.isLandScape = true,
@@ -110,11 +112,11 @@ class _CarWidgetState extends State<CarWidget> {
               ),
               ///custom paint to draw the path
               ///PathPainter take the path and the width
-              CustomPaint(painter: PathPainter(car.carSvgParts , widget.borderPathWidth)),
+              CustomPaint(painter: PathPainter(car.pathModel.path , widget.borderPathWidth)),
             ]
         ),
         /// you must send the path to pathclipper to clip the contaner
-        clipper: PathClipper(car.carSvgParts));
+        clipper: PathClipper(car.pathModel.path));
   }
 
   ///used to build car Image List
@@ -137,7 +139,7 @@ class _CarWidgetState extends State<CarWidget> {
       onPressed: () {
         ///here you must git the currentindex and send it to paintpart method
         int currentIndex = svgImageList.indexOf(car);
-        paintPart(car.carSvgParts , currentIndex);
+        paintPart(car.pathModel.path , currentIndex);
         widget.onYes(car);
         navPop();
       },
@@ -150,7 +152,7 @@ class _CarWidgetState extends State<CarWidget> {
       onPressed: () {
         ///here you must git the currentindex and send it to Unpaintpart method
         int currentIndex = svgImageList.indexOf(car);
-        unPaintPart(car.carSvgParts  , currentIndex);
+        unPaintPart(car.pathModel.path , currentIndex);
         widget.onNo(car);
         navPop();
       },
@@ -206,23 +208,44 @@ class _CarWidgetState extends State<CarWidget> {
   }
 
 
-  void buildSvgImageList(List<Path> imageList ){
+  void buildSvgImageList(List<Path> imagePathList , List imagePathName ){
     //List <String> clickAbleList = ['CarParts.EKSEDAMLF','CarParts.RFRFLB','CarParts.DOORLB','CarParts.DOORLF','CarParts.LIGHTSPOTLB','CarParts.WHEELLF','CarParts.GLASSLB','CarParts.SHORAALB','CarParts.RFRFLF','CarParts.ATBL','CarParts.EKSDAMLB','CarParts.LIGHTSPOTLF'];
-    for(int i = 0 ; i < imageList.length ; i ++ ){
-      svgImageList.add(CarModel(imageList[i] , Colors.white)) ;
+    for(int i = 0 ; i < imagePathList.length ; i ++ ){
+      svgImageList.add(CarModel(PathModel(imagePathList[i] , imagePathName[i]) , Colors.white)) ;
     }
   }
 
   ///give the SVG path to parser
-  void parseSvgToPath() {
+  void parseSvgToPath() async {
     SvgParser parser = SvgParser();
+
+  List pathName = await getPathNameFromXml(context);
+
     parser.loadFromFile(widget.svgPath).then((value) {
       setState(() {
         paths = parser.getPaths();
-        buildSvgImageList(paths);
+        buildSvgImageList(paths , pathName);
       });
     });
   }
+
+
+ Future<List> getPathNameFromXml(BuildContext context) async {
+      List pathNames  = [] ;
+    String xmlString = await DefaultAssetBundle.of(context)
+        .loadString("assets/images/hatchback.svg");
+
+    var raw = xml.XmlDocument.parse(xmlString);
+    raw.findAllElements("path").map((e) => e.attributes).forEach((element) {
+      var name = element.firstWhere(
+            (attr) => attr.name.local == "id",
+      );
+      pathNames.add(name);
+    });
+  return pathNames;
+  }
+
+
 
 }
 
