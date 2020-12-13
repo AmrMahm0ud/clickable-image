@@ -1,6 +1,6 @@
+import 'package:clickable_regions/clickable_car_widget/model/path_model.dart';
 import'package:flutter/material.dart';
 
-import 'package:clickable_regions/model/path_model.dart';
 
 
 

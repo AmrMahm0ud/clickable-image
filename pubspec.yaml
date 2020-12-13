@@ -23,5 +23,9 @@ dependency_overrides:
 flutter:
   uses-material-design: true
   assets:
-    - assets/images/hatchback.svg
+    - assets/images/backview.svg
+    - assets/images/els2f.svg
+    - assets/images/frontview.svg
+    - assets/images/leftview.svg
+    - assets/images/rightview.svg
 

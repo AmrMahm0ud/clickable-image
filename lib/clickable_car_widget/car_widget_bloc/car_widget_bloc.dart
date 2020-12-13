@@ -1,7 +1,7 @@
-import 'package:clickable_regions/car_widget_bloc/car_widget_event.dart';
-import 'package:clickable_regions/car_widget_bloc/car_widget_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'car_widget_event.dart';
+import 'car_widget_repo.dart';
 import 'car_widget_state.dart';
 
 class CarWidgetBloc extends Bloc<CarWidgetEvent, CarWidgetState> {

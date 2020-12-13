@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 
 
-import 'package:clickable_regions/screen/car_screen.dart';
+import 'package:clickable_regions/screen/left_view.dart';
 
 
 class SwitchBetWeenScreens extends StatefulWidget {
@@ -12,8 +12,16 @@ class SwitchBetWeenScreens extends StatefulWidget {
 }
 
 class _SwitchBetWeenScreensState extends State<SwitchBetWeenScreens> {
+
   final String APP_NAME = 'Car App';
-  final String  BUTTON_NAME= 'Side Car';
+
+  final String BACK_VIEW = 'Back View';
+
+  final String UP_VIEW = "Up View";
+  final String FRONT_VIEW = "Front View";
+  final String LEFT_VIEW = "LEFT_VIEW";
+  final String RIGHT_VIEW = "RIGHT_VIEW";
+
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +33,27 @@ class _SwitchBetWeenScreensState extends State<SwitchBetWeenScreens> {
       children: [
         FlatButton(
           color: Colors.grey,
-          child: Text(BUTTON_NAME),
+          child: Text(BACK_VIEW),
+          onPressed: () => navToCarScreen(),
+        ),
+        FlatButton(
+          color: Colors.grey,
+          child: Text(UP_VIEW),
+          onPressed: () => navToCarScreen(),
+        ),
+        FlatButton(
+          color: Colors.grey,
+          child: Text(FRONT_VIEW),
+          onPressed: () => navToCarScreen(),
+        ),
+        FlatButton(
+          color: Colors.grey,
+          child: Text(LEFT_VIEW),
+          onPressed: () => navToCarScreen(),
+        ),
+        FlatButton(
+          color: Colors.grey,
+          child: Text(RIGHT_VIEW),
           onPressed: () => navToCarScreen(),
         ),
       ],

@@ -1,5 +1,8 @@
-import 'package:clickable_regions/model/car_model.dart';
 
+
+
+
+import 'package:clickable_regions/clickable_car_widget/model/car_model.dart';
 
 abstract class CarWidgetState{
 }

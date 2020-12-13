@@ -1,12 +1,15 @@
+
+import 'package:clickable_regions/clickable_car_widget/car_widget/path_clipper.dart';
+import 'package:clickable_regions/clickable_car_widget/car_widget/path_painter.dart';
+import 'package:clickable_regions/clickable_car_widget/car_widget_bloc/car_widget_bloc.dart';
+import 'package:clickable_regions/clickable_car_widget/car_widget_bloc/car_widget_event.dart';
+import 'package:clickable_regions/clickable_car_widget/car_widget_bloc/car_widget_state.dart';
+import 'package:clickable_regions/clickable_car_widget/model/car_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:clickable_regions/car_widget_bloc/car_widget_bloc.dart';
-import 'package:clickable_regions/car_widget_bloc/car_widget_event.dart';
-import 'package:clickable_regions/car_widget_bloc/car_widget_state.dart';
-import 'package:clickable_regions/model/car_model.dart';
-import 'package:clickable_regions/widget/car_widget/path_clipper.dart';
-import 'package:clickable_regions/widget/car_widget/path_painter.dart';
+
+
 
 class CarWidget extends StatefulWidget {
   final Color unSelectedPartColor;
@@ -103,8 +106,6 @@ class _CarWidgetState extends State<CarWidget> {
       ///here we put all widget in a stack
       child: Container(
         color: Colors.blue,
-          height: 250,
-          width: 250,
           child: Transform.scale(
             scale: 0.6,
               child: Stack(children: _buildSvgImage(imageList)))),
