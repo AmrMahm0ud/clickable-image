@@ -5,7 +5,8 @@ abstract class CarWidgetState{
 }
 
 class InitialState extends CarWidgetState {
-  InitialState();
+  List <CarModel> imageList;
+  InitialState(this.imageList);
 }
 
 
@@ -23,8 +24,8 @@ class UnSelectedState extends CarWidgetState{
 class CancelState extends CarWidgetState {
   List<CarModel> imageList ;
   CancelState(this.imageList);
-}
 
+}
 
 class ImageListLoadedState extends CarWidgetState {
   List<CarModel> imageList ;
@@ -37,11 +38,4 @@ class OpenDialogState extends CarWidgetState {
   OpenDialogState(this.carModel);
 }
 
-
-class NewLoadedListState extends CarWidgetState {
-
-}
-
-class LocadingState extends CarWidgetState {
-
-}
+class LoadingState extends CarWidgetState {}

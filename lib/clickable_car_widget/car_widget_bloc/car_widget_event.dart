@@ -1,30 +1,31 @@
+import 'package:flutter/cupertino.dart';
+
 import 'package:clickable_regions/model/car_model.dart';
+
 
 abstract class CarWidgetEvent {
 }
 
 class ShowCarEvent extends CarWidgetEvent {
-  final List<CarModel> imageList;
-  ShowCarEvent(this.imageList);
+  BuildContext context;
+  final String svgPath;
+  ShowCarEvent(this.context , this.svgPath);
 }
 
 class YesButtonPressedEvent extends CarWidgetEvent {
-  final index ;
-  final List<CarModel> imageList;
-  YesButtonPressedEvent(this.index , this.imageList);
+  final CarModel carModel ;
+  YesButtonPressedEvent(this.carModel );
 }
 
 
 class NoButtonPressedEvent extends CarWidgetEvent {
-  final index ;
-  final List<CarModel> imageList;
-  NoButtonPressedEvent(this.index , this.imageList);
+  final CarModel carModel ;
+  NoButtonPressedEvent(this.carModel);
 }
 
 
 class CancelButtonPressedEvent extends CarWidgetEvent {
-  final List<CarModel> imageList;
-  CancelButtonPressedEvent(this.imageList);
+  CancelButtonPressedEvent();
 }
 
 class OpenDialogEvent extends CarWidgetEvent {
