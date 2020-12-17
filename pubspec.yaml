@@ -28,4 +28,5 @@ flutter:
     - assets/images/frontview.svg
     - assets/images/leftview.svg
     - assets/images/rightview.svg
+    - images/hatchback.svg
 

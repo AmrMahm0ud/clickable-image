@@ -9,7 +9,7 @@ class CarScreen extends StatefulWidget {
 
 class _CarScreenState extends State<CarScreen> {
   final String APP_NAME = "Car App";
-  final svgPath = "assets/images/leftview.svg";
+  final svgPath = "images/hatchback.svg";
 
   @override
   Widget build(BuildContext context) {

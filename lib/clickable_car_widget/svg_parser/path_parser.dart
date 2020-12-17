@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:path_parsing/path_parsing.dart';
 import 'package:xml/xml.dart' as xml;
 
-
 //SVG parsing
 
 /// Parses a minimal subset of a SVG file and extracts all paths segments.
@@ -15,15 +14,14 @@ import 'package:xml/xml.dart' as xml;
 class SvgParser {
   /// Each [PathSegment] represents a continuous Path element of the parent Path
   final List<PathSegment> _pathSegments = List<PathSegment>();
-  List<Path> _paths =  List<Path>();
-
+  List<Path> _paths = List<Path>();
 
   Color parseColor(String cStr) {
     if (cStr == null || cStr.isEmpty)
       throw UnsupportedError("Empty color field found.");
     if (cStr[0] == '#') {
-      return new Color(int.parse(cStr.substring(1), radix: 16)).withOpacity(
-          1.0);
+      return new Color(int.parse(cStr.substring(1), radix: 16))
+          .withOpacity(1.0);
     } else if (cStr == 'none') {
       return Colors.transparent;
     } else {
@@ -90,16 +88,15 @@ class SvgParser {
           }
         }
 
-
         var strokeElement = attributes.firstWhere(
-                (attr) => attr.name.local == "stroke",
+            (attr) => attr.name.local == "stroke",
             orElse: () => null);
         if (strokeElement != null) {
           color = parseColor(strokeElement.value);
         }
 
         var strokeWidthElement = attributes.firstWhere(
-                (attr) => attr.name.local == "stroke-width",
+            (attr) => attr.name.local == "stroke-width",
             orElse: () => null);
         if (strokeWidthElement != null) {
           strokeWidth = double.tryParse(strokeWidthElement.value) ?? null;
@@ -118,10 +115,8 @@ class SvgParser {
 
     int index = 0;
     paths.forEach((p) {
-      assert(p != null,
-      "Path element in `paths` must not be null.");
-      addPathSegments(p, index, null,
-          null);
+      assert(p != null, "Path element in `paths` must not be null.");
+      addPathSegments(p, index, null, null);
       index++;
     });
   }
@@ -147,9 +142,12 @@ class SvgParser {
 /// Represents a segment of path, as returned by path.computeMetrics() and the associated painting parameters for each Path
 //
 class PathSegment {
-  PathSegment(): strokeWidth = 0.0, color = Colors.black, firstSegmentOfPathIndex = 0, relativeIndex = 0, pathIndex = 0 {
-
-  }
+  PathSegment()
+      : strokeWidth = 0.0,
+        color = Colors.black,
+        firstSegmentOfPathIndex = 0,
+        relativeIndex = 0,
+        pathIndex = 0 {}
 
   /// A continuous path/segment
   Path path;

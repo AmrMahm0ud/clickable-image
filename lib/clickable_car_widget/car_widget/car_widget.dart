@@ -1,4 +1,3 @@
-
 import 'package:clickable_regions/clickable_car_widget/car_widget/path_clipper.dart';
 import 'package:clickable_regions/clickable_car_widget/car_widget/path_painter.dart';
 import 'package:clickable_regions/clickable_car_widget/car_widget_bloc/car_widget_bloc.dart';
@@ -7,9 +6,6 @@ import 'package:clickable_regions/clickable_car_widget/car_widget_bloc/car_widge
 import 'package:clickable_regions/clickable_car_widget/model/car_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-
-
 
 class CarWidget extends StatefulWidget {
   final Color unSelectedPartColor;
@@ -105,10 +101,9 @@ class _CarWidgetState extends State<CarWidget> {
     return Center(
       ///here we put all widget in a stack
       child: Container(
-        color: Colors.blue,
+          color: Colors.blue,
           child: Transform.scale(
-            scale: 0.6,
-              child: Stack(children: _buildSvgImage(imageList)))),
+              scale: 1.0, child: Stack(children: _buildSvgImage(imageList)))),
     );
   }
 
@@ -117,7 +112,7 @@ class _CarWidgetState extends State<CarWidget> {
     ///ClipPath to clip the container in the shape of the path
     return ClipPath(
         child: Stack(children: <Widget>[
-          Material(
+          Container(
               color: widget.unSelectedPartColor,
               child: InkWell(
                 onTap: () => _showDialogBox(car),
@@ -126,8 +121,7 @@ class _CarWidgetState extends State<CarWidget> {
                       ? widget.selectedPartColor
                       : widget.unSelectedPartColor,
                 ),
-              )
-          ),
+              )),
 
           ///custom paint to draw the path
           ///PathPainter take the path and the width

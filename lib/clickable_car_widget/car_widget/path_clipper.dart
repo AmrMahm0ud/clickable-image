@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-
 /// this class is response for clip the Container
 class PathClipper extends CustomClipper<Path> {
   ///this path draw the shap of the container
@@ -17,5 +15,4 @@ class PathClipper extends CustomClipper<Path> {
   ///https://api.flutter.dev/flutter/rendering/CustomClipper/shouldReclip.html
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
-
 }
